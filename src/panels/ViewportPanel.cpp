@@ -43,8 +43,8 @@ const glm::vec4 clipFar(mouseNdc.x, mouseNdc.y, 1.0f, 1.0f);
 const glm::mat4 invViewProj = glm::inverse(projection * view);
 const glm::vec4 worldNear = invViewProj * clipNear;
 const glm::vec4 worldFar = invViewProj * clipFar;
-const glm::vec3 nearPoint = worldNear.xyz() / worldNear.w;
-const glm::vec3 farPoint = worldFar.xyz() / worldFar.w;
+const glm::vec3 nearPoint = glm::vec3(worldNear.x, worldNear.y, worldNear.z) / worldNear.w;
+const glm::vec3 farPoint = glm::vec3(worldFar.x, worldFar.y, worldFar.z) / worldFar.w;
 return glm::normalize(farPoint - nearPoint);
 }
 }  // namespace
@@ -132,8 +132,8 @@ if (selectedIndex != nullptr && ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAnd
     const glm::vec4 farClip(mouseNdc.x, mouseNdc.y, 1.0f, 1.0f);
     const glm::vec4 nearWorld = glm::inverse(projection * view) * nearClip;
     const glm::vec4 farWorld = glm::inverse(projection * view) * farClip;
-    const glm::vec3 rayOrigin = nearWorld.xyz() / nearWorld.w;
-    const glm::vec3 rayDirection = glm::normalize((farWorld.xyz() / farWorld.w) - rayOrigin);
+    const glm::vec3 rayOrigin = glm::vec3(nearWorld.x, nearWorld.y, nearWorld.z) / nearWorld.w;
+    const glm::vec3 rayDirection = glm::normalize((glm::vec3(farWorld.x, farWorld.y, farWorld.z) / farWorld.w) - rayOrigin);
 
     int picked = -1;
     float closest = std::numeric_limits<float>::max();
