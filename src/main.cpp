@@ -410,14 +410,14 @@ int main() {
     ImGui_ImplOpenGL3_Init("#version 330 core");
 
     OrbitCamera camera;
-    camera.SetTarget(glm::vec3(0.0f, 0.0f, 0.0f), 7.5f, 45.0f, -24.0f);
+    camera.SetTarget(glm::vec3(0.0f, 0.6f, 0.0f), 9.0f, 42.0f, -28.0f);
 
     std::vector<SceneObject> sceneObjects;
     sceneObjects.push_back(MakeDefaultCube("Cube"));
-    sceneObjects.back().transform.position = glm::vec3(0.0f, 0.2f, 0.0f);
+    sceneObjects.back().transform.position = glm::vec3(0.0f, 0.75f, 0.0f);
 
     std::vector<SceneLight> lights;
-    lights.push_back({glm::vec3(2.5f, 4.0f, 4.0f), glm::vec3(1.0f, 0.96f, 0.9f), 1.2f});
+    lights.push_back({glm::vec3(0.0f, 4.5f, 2.5f), glm::vec3(1.0f, 0.98f, 0.94f), 1.8f});
 
     std::vector<AssetEntry> assetEntries = RefreshAssets();
     std::filesystem::path selectedAsset;

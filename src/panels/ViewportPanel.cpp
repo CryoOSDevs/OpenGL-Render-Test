@@ -202,15 +202,15 @@ shader_.SetMat4("uView", view);
 shader_.SetMat4("uProjection", projection);
 shader_.SetVec3("uCameraPos", camera.Position());
 
-glm::vec3 ambient(0.22f, 0.24f, 0.30f);
-glm::vec3 dirLightColor(0.92f, 0.88f, 0.80f);
-glm::vec3 dirLightDirection = glm::normalize(glm::vec3(-0.8f, -1.0f, -0.6f));
+glm::vec3 ambient(0.35f, 0.38f, 0.45f);
+glm::vec3 dirLightColor(0.72f, 0.73f, 0.80f);
+glm::vec3 dirLightDirection = glm::normalize(glm::vec3(-0.7f, -1.0f, -0.5f));
 shader_.SetVec3("uAmbient", ambient);
 shader_.SetVec3("uDirLightDir", dirLightDirection);
 shader_.SetVec3("uDirLightColor", dirLightColor);
 
-glm::vec3 pointLightPos(2.0f, 3.5f, 3.5f);
-glm::vec3 pointLightColor(1.0f, 0.92f, 0.86f);
+glm::vec3 pointLightPos(0.0f, 4.8f, 2.6f);
+glm::vec3 pointLightColor(1.0f, 0.96f, 0.9f);
 if (!lights.empty()) {
     const SceneLight& light = lights.front();
     pointLightPos = light.position;
@@ -222,9 +222,9 @@ shader_.SetVec3("uPointLightColor", pointLightColor);
 SceneObject ground;
 ground.name = "Ground";
 ground.SetPlaneMesh();
-ground.transform.position = glm::vec3(0.0f, -1.0f, 0.0f);
-ground.transform.scale = glm::vec3(12.0f, 1.0f, 12.0f);
-ground.color = glm::vec4(0.67f, 0.68f, 0.72f, 1.0f);
+ground.transform.position = glm::vec3(0.0f, -0.6f, 0.0f);
+ground.transform.scale = glm::vec3(14.0f, 1.0f, 14.0f);
+ground.color = glm::vec4(0.74f, 0.76f, 0.79f, 1.0f);
 ground.EnsureUpload();
 shader_.SetMat4("uModel", ground.WorldMatrix());
 shader_.SetVec4("uColor", ground.color);
