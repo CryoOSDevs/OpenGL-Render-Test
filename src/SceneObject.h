@@ -47,6 +47,53 @@ public:
         return model;
     }
 
+    glm::vec3 LocalCenter() const {
+        if (vertices.empty()) {
+            return glm::vec3(0.0f);
+        }
+        glm::vec3 minValue = vertices[0].position;
+        glm::vec3 maxValue = vertices[0].position;
+        for (const auto& vertex : vertices) {
+            minValue = glm::min(minValue, vertex.position);
+            maxValue = glm::max(maxValue, vertex.position);
+        }
+        return (minValue + maxValue) * 0.5f;
+    }
+
+    float LocalRadius() const {
+        if (vertices.empty()) {
+            return 0.0f;
+        }
+        const glm::vec3 center = LocalCenter();
+        float radius = 0.0f;
+        for (const auto& vertex : vertices) {
+            radius = std::max(radius, glm::length(vertex.position - center));
+        }
+        return radius;
+    }
+
+    glm::vec3 WorldCenter() const {
+        return glm::vec3(WorldMatrix() * glm::vec4(LocalCenter(), 1.0f));
+    }
+
+    float WorldRadius() const {
+        if (vertices.empty()) {
+            return 0.0f;
+        }
+        const glm::mat3 rotation = glm::mat3_cast(transform.rotation);
+        const glm::mat3 scaleMatrix = glm::mat3(
+            glm::vec3(transform.scale.x, 0.0f, 0.0f),
+            glm::vec3(0.0f, transform.scale.y, 0.0f),
+            glm::vec3(0.0f, 0.0f, transform.scale.z));
+        const glm::vec3 center = LocalCenter();
+        float radius = 0.0f;
+        for (const auto& vertex : vertices) {
+            const glm::vec3 local = (rotation * scaleMatrix) * (vertex.position - center);
+            radius = std::max(radius, glm::length(local));
+        }
+        return radius;
+    }
+
     std::vector<MeshVertex> vertices;
     std::vector<unsigned int> indices;
 

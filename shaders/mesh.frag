@@ -5,20 +5,41 @@ in vec3 vWorldPos;
 
 uniform vec4 uColor;
 uniform vec3 uAmbient;
-uniform vec3 uLightDir;
-uniform vec3 uLightColor;
+uniform vec3 uDirLightDir;
+uniform vec3 uDirLightColor;
+uniform vec3 uPointLightPos;
+uniform vec3 uPointLightColor;
 uniform vec3 uCameraPos;
+uniform float uSelected;
 
 out vec4 FragColor;
 
 void main() {
     vec3 N = normalize(vNormal);
-    vec3 L = normalize(-uLightDir);
     vec3 V = normalize(uCameraPos - vWorldPos);
-    vec3 H = normalize(L + V);
 
-    float diff = max(dot(N, L), 0.0);
-    float spec = pow(max(dot(N, H), 0.0), 32.0);
-    vec3 lit = uColor.rgb * (uAmbient + uLightColor * diff + vec3(0.5) * spec);
+    vec3 Ld = normalize(-uDirLightDir);
+    float diffDir = max(dot(N, Ld), 0.0);
+    vec3 Hd = normalize(Ld + V);
+    float specDir = pow(max(dot(N, Hd), 0.0), 32.0);
+
+    vec3 pointVec = uPointLightPos - vWorldPos;
+    float pointDist = length(pointVec);
+    vec3 Lp = normalize(pointVec);
+    float pointAtten = 1.0 / (1.0 + 0.18 * pointDist + 0.032 * pointDist * pointDist);
+    float diffPoint = max(dot(N, Lp), 0.0);
+    vec3 Hp = normalize(Lp + V);
+    float specPoint = pow(max(dot(N, Hp), 0.0), 32.0);
+
+    vec3 lit = uColor.rgb * (uAmbient +
+                            uDirLightColor * diffDir +
+                            uDirLightColor * specDir * 0.35 +
+                            uPointLightColor * diffPoint * pointAtten +
+                            uPointLightColor * specPoint * pointAtten * 0.45);
+
+    if (uSelected > 0.5) {
+        lit = mix(lit, vec3(0.75, 0.9, 1.0), 0.55);
+    }
+
     FragColor = vec4(lit, uColor.a);
 }

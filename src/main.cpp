@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <imgui.h>
+#include <imgui_internal.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <ImGuizmo.h>
@@ -432,6 +433,8 @@ int main() {
     double lastMouseY = 0.0;
     bool hasMousePosition = false;
 
+    static bool layoutInitialized = false;
+
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
         int width = 0;
@@ -459,10 +462,31 @@ int main() {
                          ImGuiWindowFlags_NoNavFocus);
         const ImGuiID dockspaceId = ImGui::GetID("LauraEditorDockspace");
         ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_AutoHideTabBar);
+
+        if (!layoutInitialized) {
+            ImGui::DockBuilderRemoveNode(dockspaceId);
+            ImGui::DockBuilderAddNode(dockspaceId, ImGuiDockNodeFlags_None);
+            ImGui::DockBuilderSetNodeSize(dockspaceId, mainViewport->Size);
+
+            ImGuiID dockMain = dockspaceId;
+            ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Left, 0.22f, nullptr, &dockMain);
+            ImGuiID dockRight = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Right, 0.26f, nullptr, &dockMain);
+            ImGuiID dockBottom = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Down, 0.24f, nullptr, &dockMain);
+
+            ImGui::DockBuilderDockWindow("Outliner", dockLeft);
+            ImGui::DockBuilderDockWindow("Details", dockRight);
+            ImGui::DockBuilderDockWindow("Asset Browser", dockBottom);
+            ImGui::DockBuilderDockWindow("Viewport", dockMain);
+            ImGui::DockBuilderDockWindow("Toolbar", dockMain);
+            ImGui::DockBuilderFinish(dockspaceId);
+            layoutInitialized = true;
+        }
+
         ImGui::End();
         ImGui::PopStyleVar(2);
 
-        ImGui::Begin("Toolbar", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+        ImGui::SetNextWindowDockID(dockspaceId, ImGuiCond_Once);
+        ImGui::Begin("Toolbar", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
         if (ImGui::Button("Add Cube")) {
             SceneObject newObject = MakeDefaultCube("Cube", glm::vec3(2.0f * static_cast<float>(sceneObjects.size()), 0.0f, 0.0f));
             sceneObjects.push_back(newObject);
@@ -489,6 +513,7 @@ int main() {
         if (ImGui::IsKeyPressed(ImGuiKey_R)) gizmoOperation = ImGuizmo::SCALE;
         if (ImGui::IsKeyPressed(ImGuiKey_L)) localWorld = !localWorld;
 
+        ImGui::SetNextWindowDockID(dockspaceId, ImGuiCond_Once);
         ImGui::Begin("Outliner");
         for (size_t i = 0; i < sceneObjects.size(); ++i) {
             const bool selected = static_cast<int>(i) == selectedIndex;
@@ -498,6 +523,7 @@ int main() {
         }
         ImGui::End();
 
+        ImGui::SetNextWindowDockID(dockspaceId, ImGuiCond_Once);
         ImGui::Begin("Asset Browser");
         if (ImGui::Button("Refresh")) {
             assetEntries = RefreshAssets();
@@ -529,7 +555,7 @@ int main() {
 
         bool usedGizmo = false;
         bool hoveredByGizmo = false;
-        viewportPanel.Render(sceneObjects, selectedIndex, camera, lights, gizmoOperation,
+        viewportPanel.Render(sceneObjects, &selectedIndex, camera, lights, gizmoOperation,
                             localWorld ? ImGuizmo::LOCAL : ImGuizmo::WORLD,
                             localWorld, &usedGizmo, &hoveredByGizmo);
 

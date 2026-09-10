@@ -10,6 +10,7 @@ glm::vec3 EulerDegrees(const glm::quat& rotation) {
 }  // namespace
 
 void DetailsPanel::Render(SceneObject& object) {
+    ImGui::SetNextWindowDockID(ImGui::GetID("LauraEditorDockspace"), ImGuiCond_Once);
     ImGui::Begin("Details");
 
     ImGui::Text("%s", object.name.c_str());
