@@ -35,6 +35,36 @@ void OrbitCamera::Pan(float deltaX, float deltaY) {
     target_ += up * (deltaY * 0.01f * distance_);
 }
 
+void OrbitCamera::Move(float forward, float right, float up, float speed) {
+    const glm::vec3 cameraPos = Position();
+    const glm::vec3 viewDir = glm::normalize(target_ - cameraPos);
+    const glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+    const glm::vec3 cameraRight = glm::normalize(glm::cross(viewDir, worldUp));
+    const glm::vec3 cameraUp = glm::normalize(glm::cross(cameraRight, viewDir));
+
+    target_ += viewDir * forward * speed;
+    target_ += cameraRight * right * speed;
+    target_ += cameraUp * up * speed;
+}
+
+void OrbitCamera::MoveForward(float amount) {
+    const glm::vec3 cameraPos = Position();
+    const glm::vec3 viewDir = glm::normalize(target_ - cameraPos);
+    target_ += viewDir * amount;
+}
+
+void OrbitCamera::MoveSideways(float amount) {
+    const glm::vec3 cameraPos = Position();
+    const glm::vec3 viewDir = glm::normalize(target_ - cameraPos);
+    const glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+    const glm::vec3 cameraRight = glm::normalize(glm::cross(viewDir, worldUp));
+    target_ += cameraRight * amount;
+}
+
+void OrbitCamera::MoveUp(float amount) {
+    target_ += glm::vec3(0.0f, amount, 0.0f);
+}
+
 void OrbitCamera::Zoom(float delta) {
     distance_ *= std::pow(1.12f, -delta * 0.01f);
     distance_ = std::clamp(distance_, 1.5f, 30.0f);

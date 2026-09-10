@@ -41,6 +41,9 @@ To run the editor:
 - Right mouse drag: orbit camera
 - Middle mouse drag: pan camera
 - Mouse wheel: zoom camera
+- W / A / S / D: move the camera in the viewport
+- Q / E: move the camera up and down
+- Shift: move faster
 - W: translate gizmo
 - E: rotate gizmo
 - R: scale gizmo

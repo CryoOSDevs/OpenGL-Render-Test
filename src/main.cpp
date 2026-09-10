@@ -418,6 +418,7 @@ int main() {
 
     std::vector<SceneLight> lights;
     lights.push_back({glm::vec3(0.0f, 4.5f, 2.5f), glm::vec3(1.0f, 0.98f, 0.94f), 1.8f});
+    lights.push_back({glm::vec3(0.0f, 1.5f, -2.0f), glm::vec3(0.7f, 0.8f, 1.0f), 0.7f});
 
     std::vector<AssetEntry> assetEntries = RefreshAssets();
     std::filesystem::path selectedAsset;
@@ -432,10 +433,16 @@ int main() {
     double lastMouseX = 0.0;
     double lastMouseY = 0.0;
     bool hasMousePosition = false;
+    static float moveSpeed = 2.5f;
+    double lastFrame = glfwGetTime();
 
     static bool layoutInitialized = false;
 
     while (!glfwWindowShouldClose(window)) {
+        const double now = glfwGetTime();
+        const float deltaSeconds = static_cast<float>(now - lastFrame);
+        lastFrame = now;
+
         glfwPollEvents();
         int width = 0;
         int height = 0;
@@ -505,6 +512,8 @@ int main() {
         ImGui::SameLine();
         if (ImGui::Button(localWorld ? "Local" : "World")) localWorld = !localWorld;
         ImGui::SameLine();
+        ImGui::SliderFloat("Move Speed", &moveSpeed, 0.5f, 20.0f, "%.1f");
+        ImGui::SameLine();
         ImGui::Text("  %zu objects", sceneObjects.size());
         ImGui::End();
 
@@ -560,6 +569,18 @@ int main() {
                             localWorld, &usedGizmo, &hoveredByGizmo);
 
         if (viewportPanel.IsHovered() && !usedGizmo && !hoveredByGizmo) {
+            const bool shiftPressed = glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ||
+                                     glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS;
+            const float moveMultiplier = shiftPressed ? 2.8f : 1.0f;
+            const float keyboardMove = moveSpeed * moveMultiplier * deltaSeconds;
+
+            if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) camera.MoveForward(keyboardMove);
+            if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) camera.MoveForward(-keyboardMove);
+            if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) camera.MoveSideways(-keyboardMove);
+            if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) camera.MoveSideways(keyboardMove);
+            if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) camera.MoveUp(-keyboardMove);
+            if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) camera.MoveUp(keyboardMove);
+
             double mouseX = 0.0;
             double mouseY = 0.0;
             glfwGetCursorPos(window, &mouseX, &mouseY);
