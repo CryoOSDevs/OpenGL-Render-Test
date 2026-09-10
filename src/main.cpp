@@ -5,9 +5,6 @@
 #include <imgui_impl_opengl3.h>
 #include <ImGuizmo.h>
 
-#include <algorithm>
-#include <array>
-#include <cmath>
 #include <iostream>
 #include <vector>
 
@@ -25,21 +22,6 @@ static double gScrollDelta = 0.0;
 
 void ScrollCallback(GLFWwindow* /*window*/, double /*xoffset*/, double yoffset) {
     gScrollDelta += yoffset;
-}
-
-ImGuizmo::OPERATION GetNextOperation(ImGuizmo::OPERATION current, bool cycleForward) {
-    const std::array<ImGuizmo::OPERATION, 3> operations = {
-        ImGuizmo::TRANSLATE,
-        ImGuizmo::ROTATE,
-        ImGuizmo::SCALE,
-    };
-    for (size_t index = 0; index < operations.size(); ++index) {
-        if (operations[index] == current) {
-            const size_t nextIndex = cycleForward ? (index + 1) % operations.size() : ((index + operations.size() - 1) % operations.size());
-            return operations[nextIndex];
-        }
-    }
-    return ImGuizmo::TRANSLATE;
 }
 }  // namespace
 

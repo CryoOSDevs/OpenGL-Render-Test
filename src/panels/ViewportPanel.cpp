@@ -74,7 +74,8 @@ bool ViewportPanel::Render(SceneObject& object,
                           bool isLocalMode,
                           bool* isUsingGizmo,
                           bool* isHoveredByGizmo) {
-    ImGui::Begin("Viewport");
+(void)mode;
+ImGui::Begin("Viewport");
     hovered_ = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows);
     focused_ = ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows);
 
