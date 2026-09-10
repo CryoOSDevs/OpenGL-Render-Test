@@ -23,6 +23,7 @@ bool ViewportPanel::Render(std::vector<SceneObject>& objects,
                       bool isLocalMode,
                       bool* isUsingGizmo,
                       bool* isHoveredByGizmo) {
+(void)mode;
 ImGui::Begin("Viewport");
 hovered_ = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows);
 focused_ = ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows);
@@ -97,7 +98,7 @@ glm::ivec2 ViewportPanel::Size() const {
 return framebuffer_.Size();
 }
 
-void ViewportPanel::RenderScene(const OrbitCamera& camera, const std::vector<SceneObject>& objects, const std::vector<SceneLight>& lights) const {
+void ViewportPanel::RenderScene(const OrbitCamera& camera, std::vector<SceneObject>& objects, const std::vector<SceneLight>& lights) const {
 const glm::ivec2 size = framebuffer_.Size();
 if (size.x <= 0 || size.y <= 0) {
     return;
@@ -139,7 +140,7 @@ shader_.SetMat4("uModel", ground.WorldMatrix());
 shader_.SetVec4("uColor", ground.color);
 ground.Draw();
 
-for (const auto& object : objects) {
+for (auto& object : objects) {
     object.EnsureUpload();
     shader_.SetMat4("uModel", object.WorldMatrix());
     shader_.SetVec4("uColor", object.color);

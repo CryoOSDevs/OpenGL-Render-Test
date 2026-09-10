@@ -66,6 +66,7 @@ CMAKE_BINARY_DIR = "/home/andrey-vorobey/Videos/OpenGL Render/build"
 all: CMakeFiles/glad_loader.dir/all
 all: CMakeFiles/imgui_lib.dir/all
 all: CMakeFiles/imguizmo_lib.dir/all
+all: CMakeFiles/tinygltf.dir/all
 all: CMakeFiles/LauraEditor.dir/all
 all: _deps/glfw-build/all
 all: _deps/glm-build/all
@@ -80,6 +81,7 @@ preinstall: _deps/glm-build/preinstall
 clean: CMakeFiles/glad_loader.dir/clean
 clean: CMakeFiles/imgui_lib.dir/clean
 clean: CMakeFiles/imguizmo_lib.dir/clean
+clean: CMakeFiles/tinygltf.dir/clean
 clean: CMakeFiles/LauraEditor.dir/clean
 clean: _deps/glfw-build/clean
 clean: _deps/glm-build/clean
@@ -246,12 +248,39 @@ CMakeFiles/imguizmo_lib.dir/clean:
 .PHONY : CMakeFiles/imguizmo_lib.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/tinygltf.dir
+
+# All Build rule for target.
+CMakeFiles/tinygltf.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinygltf.dir/build.make CMakeFiles/tinygltf.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinygltf.dir/build.make CMakeFiles/tinygltf.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/CMakeFiles" --progress-num=68,69 "Built target tinygltf"
+.PHONY : CMakeFiles/tinygltf.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tinygltf.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/andrey-vorobey/Videos/OpenGL Render/build/CMakeFiles" 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/tinygltf.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/andrey-vorobey/Videos/OpenGL Render/build/CMakeFiles" 0
+.PHONY : CMakeFiles/tinygltf.dir/rule
+
+# Convenience name for target.
+tinygltf: CMakeFiles/tinygltf.dir/rule
+.PHONY : tinygltf
+
+# clean rule for target.
+CMakeFiles/tinygltf.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinygltf.dir/build.make CMakeFiles/tinygltf.dir/clean
+.PHONY : CMakeFiles/tinygltf.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/LauraEditor.dir
 
 # All Build rule for target.
 CMakeFiles/LauraEditor.dir/all: CMakeFiles/glad_loader.dir/all
 CMakeFiles/LauraEditor.dir/all: CMakeFiles/imgui_lib.dir/all
 CMakeFiles/LauraEditor.dir/all: CMakeFiles/imguizmo_lib.dir/all
+CMakeFiles/LauraEditor.dir/all: CMakeFiles/tinygltf.dir/all
 CMakeFiles/LauraEditor.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 CMakeFiles/LauraEditor.dir/all: _deps/glm-build/glm/CMakeFiles/glm.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LauraEditor.dir/build.make CMakeFiles/LauraEditor.dir/depend
@@ -261,7 +290,7 @@ CMakeFiles/LauraEditor.dir/all: _deps/glm-build/glm/CMakeFiles/glm.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/LauraEditor.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/andrey-vorobey/Videos/OpenGL Render/build/CMakeFiles" 67
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/andrey-vorobey/Videos/OpenGL Render/build/CMakeFiles" 69
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/LauraEditor.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/andrey-vorobey/Videos/OpenGL Render/build/CMakeFiles" 0
 .PHONY : CMakeFiles/LauraEditor.dir/rule
@@ -334,7 +363,7 @@ _deps/glfw-build/src/CMakeFiles/glfw.dir/clean:
 _deps/glfw-build/src/CMakeFiles/update_mappings.dir/all:
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/src/CMakeFiles/update_mappings.dir/build.make _deps/glfw-build/src/CMakeFiles/update_mappings.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/src/CMakeFiles/update_mappings.dir/build.make _deps/glfw-build/src/CMakeFiles/update_mappings.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/CMakeFiles" --progress-num=68 "Built target update_mappings"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/CMakeFiles" --progress-num=70 "Built target update_mappings"
 .PHONY : _deps/glfw-build/src/CMakeFiles/update_mappings.dir/all
 
 # Build rule for subdir invocation for target.

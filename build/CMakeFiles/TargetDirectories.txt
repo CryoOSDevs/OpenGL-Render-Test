@@ -1,6 +1,7 @@
 /home/andrey-vorobey/Videos/OpenGL Render/build/CMakeFiles/glad_loader.dir
 /home/andrey-vorobey/Videos/OpenGL Render/build/CMakeFiles/imgui_lib.dir
 /home/andrey-vorobey/Videos/OpenGL Render/build/CMakeFiles/imguizmo_lib.dir
+/home/andrey-vorobey/Videos/OpenGL Render/build/CMakeFiles/tinygltf.dir
 /home/andrey-vorobey/Videos/OpenGL Render/build/CMakeFiles/LauraEditor.dir
 /home/andrey-vorobey/Videos/OpenGL Render/build/CMakeFiles/edit_cache.dir
 /home/andrey-vorobey/Videos/OpenGL Render/build/CMakeFiles/rebuild_cache.dir

@@ -193,6 +193,7 @@ LauraEditor: _deps/glm-build/glm/libglm.a
 LauraEditor: libglad_loader.a
 LauraEditor: libimgui_lib.a
 LauraEditor: libimguizmo_lib.a
+LauraEditor: libtinygltf.a
 LauraEditor: _deps/glm-build/glm/libglm.a
 LauraEditor: libimgui_lib.a
 LauraEditor: _deps/glfw-build/src/libglfw3.a

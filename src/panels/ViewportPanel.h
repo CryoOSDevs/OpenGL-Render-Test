@@ -38,7 +38,7 @@ public:
     glm::ivec2 Size() const;
 
 private:
-    void RenderScene(const OrbitCamera& camera, const std::vector<SceneObject>& objects, const std::vector<SceneLight>& lights) const;
+    void RenderScene(const OrbitCamera& camera, std::vector<SceneObject>& objects, const std::vector<SceneLight>& lights) const;
 
     Framebuffer framebuffer_;
     Shader shader_;

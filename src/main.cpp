@@ -109,16 +109,6 @@ SceneObject MakeDefaultCube(const std::string& name, const glm::vec3& pos = glm:
     return obj;
 }
 
-std::string ReadLineTrimmed(std::istream& in) {
-    std::string line;
-    std::getline(in, line);
-    const auto first = line.find_first_not_of(" \t\r");
-    if (first == std::string::npos) {
-        return "";
-    }
-    return line.substr(first);
-}
-
 std::vector<std::string> Split(const std::string& value, char delim) {
     std::vector<std::string> tokens;
     std::stringstream stream(value);
@@ -437,7 +427,6 @@ int main() {
 
     ViewportPanel viewportPanel;
     DetailsPanel detailsPanel;
-    OutlinerPanel outlinerPanel;
 
     double lastMouseX = 0.0;
     double lastMouseY = 0.0;

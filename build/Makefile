@@ -202,6 +202,19 @@ imguizmo_lib/fast:
 .PHONY : imguizmo_lib/fast
 
 #=============================================================================
+# Target rules for targets named tinygltf
+
+# Build rule for target.
+tinygltf: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tinygltf
+.PHONY : tinygltf
+
+# fast build rule for target.
+tinygltf/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinygltf.dir/build.make CMakeFiles/tinygltf.dir/build
+.PHONY : tinygltf/fast
+
+#=============================================================================
 # Target rules for targets named LauraEditor
 
 # Build rule for target.
@@ -458,6 +471,30 @@ _deps/imguizmo-src/src/ImGuizmo.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/imguizmo_lib.dir/build.make CMakeFiles/imguizmo_lib.dir/_deps/imguizmo-src/src/ImGuizmo.cpp.s
 .PHONY : _deps/imguizmo-src/src/ImGuizmo.cpp.s
 
+_deps/tinygltf-src/tiny_gltf.o: _deps/tinygltf-src/tiny_gltf.cc.o
+.PHONY : _deps/tinygltf-src/tiny_gltf.o
+
+# target to build an object file
+_deps/tinygltf-src/tiny_gltf.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinygltf.dir/build.make CMakeFiles/tinygltf.dir/_deps/tinygltf-src/tiny_gltf.cc.o
+.PHONY : _deps/tinygltf-src/tiny_gltf.cc.o
+
+_deps/tinygltf-src/tiny_gltf.i: _deps/tinygltf-src/tiny_gltf.cc.i
+.PHONY : _deps/tinygltf-src/tiny_gltf.i
+
+# target to preprocess a source file
+_deps/tinygltf-src/tiny_gltf.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinygltf.dir/build.make CMakeFiles/tinygltf.dir/_deps/tinygltf-src/tiny_gltf.cc.i
+.PHONY : _deps/tinygltf-src/tiny_gltf.cc.i
+
+_deps/tinygltf-src/tiny_gltf.s: _deps/tinygltf-src/tiny_gltf.cc.s
+.PHONY : _deps/tinygltf-src/tiny_gltf.s
+
+# target to generate assembly for a file
+_deps/tinygltf-src/tiny_gltf.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinygltf.dir/build.make CMakeFiles/tinygltf.dir/_deps/tinygltf-src/tiny_gltf.cc.s
+.PHONY : _deps/tinygltf-src/tiny_gltf.cc.s
+
 _generated_glad/src/glad.o: _generated_glad/src/glad.c.o
 .PHONY : _generated_glad/src/glad.o
 
@@ -670,6 +707,7 @@ help:
 	@echo "... glm"
 	@echo "... imgui_lib"
 	@echo "... imguizmo_lib"
+	@echo "... tinygltf"
 	@echo "... _deps/imgui-src/backends/imgui_impl_glfw.o"
 	@echo "... _deps/imgui-src/backends/imgui_impl_glfw.i"
 	@echo "... _deps/imgui-src/backends/imgui_impl_glfw.s"
@@ -694,6 +732,9 @@ help:
 	@echo "... _deps/imguizmo-src/src/ImGuizmo.o"
 	@echo "... _deps/imguizmo-src/src/ImGuizmo.i"
 	@echo "... _deps/imguizmo-src/src/ImGuizmo.s"
+	@echo "... _deps/tinygltf-src/tiny_gltf.o"
+	@echo "... _deps/tinygltf-src/tiny_gltf.i"
+	@echo "... _deps/tinygltf-src/tiny_gltf.s"
 	@echo "... _generated_glad/src/glad.o"
 	@echo "... _generated_glad/src/glad.i"
 	@echo "... _generated_glad/src/glad.s"

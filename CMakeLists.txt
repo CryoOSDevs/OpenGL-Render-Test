@@ -98,10 +98,10 @@ target_include_directories(imguizmo_lib PUBLIC
 )
 target_link_libraries(imguizmo_lib PUBLIC imgui_lib glm)
 
-# tinygltf is header-only and does not provide CMake target.
+# tinygltf provides the implementation in tiny_gltf.cc.
 if (NOT TARGET tinygltf)
-    add_library(tinygltf INTERFACE)
-    target_include_directories(tinygltf INTERFACE ${tinygltf_SOURCE_DIR})
+    add_library(tinygltf STATIC ${tinygltf_SOURCE_DIR}/tiny_gltf.cc)
+    target_include_directories(tinygltf PUBLIC ${tinygltf_SOURCE_DIR})
 endif()
 
 # Application.
