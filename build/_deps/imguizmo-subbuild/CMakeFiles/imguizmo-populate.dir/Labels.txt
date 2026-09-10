@@ -1,0 +1,14 @@
+# Target labels
+ imguizmo-populate
+# Source files and their labels
+/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/CMakeFiles/imguizmo-populate
+/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/CMakeFiles/imguizmo-populate.rule
+/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/CMakeFiles/imguizmo-populate-complete.rule
+/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-build.rule
+/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-configure.rule
+/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-download.rule
+/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-install.rule
+/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-mkdir.rule
+/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-patch.rule
+/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-test.rule
+/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-update.rule
