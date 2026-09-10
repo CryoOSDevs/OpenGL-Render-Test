@@ -34,11 +34,19 @@ FetchContent_Declare(
     GIT_TAG master
 )
 
+FetchContent_Declare(
+    tinygltf
+    GIT_REPOSITORY https://github.com/syoyo/tinygltf.git
+    GIT_TAG v2.8.18
+)
+
 FetchContent_MakeAvailable(glfw glm)
 FetchContent_Populate(imgui)
 FetchContent_Populate(imguizmo)
+FetchContent_Populate(tinygltf)
 FetchContent_GetProperties(imgui)
 FetchContent_GetProperties(imguizmo)
+FetchContent_GetProperties(tinygltf)
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
 find_package(OpenGL REQUIRED)
@@ -97,6 +105,7 @@ target_include_directories(LauraEditor PRIVATE
     ${glm_SOURCE_DIR}
     ${imgui_SOURCE_DIR}
     ${imguizmo_SOURCE_DIR}/src
+    ${tinygltf_SOURCE_DIR}
 )
 
 target_link_libraries(LauraEditor PRIVATE
@@ -105,6 +114,7 @@ target_link_libraries(LauraEditor PRIVATE
     glad_loader
     imgui_lib
     imguizmo_lib
+    tinygltf
     OpenGL::GL
 )
 

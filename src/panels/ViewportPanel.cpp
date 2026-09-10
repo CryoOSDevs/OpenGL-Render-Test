@@ -6,94 +6,43 @@
 #include <glm/gtc/quaternion.hpp>
 #include <stdexcept>
 
-namespace {
-struct Vertex {
-    glm::vec3 position;
-    glm::vec3 normal;
-};
-
-const Vertex kCubeVertices[] = {
-    // Front
-    {{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-    {{0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-    {{0.5f, 0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-    {{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-    {{0.5f, 0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-    {{-0.5f, 0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-    // Back
-    {{0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}},
-    {{-0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}},
-    {{0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}},
-    {{-0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}},
-    {{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, -1.0f}},
-    // Left
-    {{-0.5f, -0.5f, -0.5f}, {-1.0f, 0.0f, 0.0f}},
-    {{-0.5f, -0.5f, 0.5f}, {-1.0f, 0.0f, 0.0f}},
-    {{-0.5f, 0.5f, 0.5f}, {-1.0f, 0.0f, 0.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {-1.0f, 0.0f, 0.0f}},
-    {{-0.5f, 0.5f, 0.5f}, {-1.0f, 0.0f, 0.0f}},
-    {{-0.5f, 0.5f, -0.5f}, {-1.0f, 0.0f, 0.0f}},
-    // Right
-    {{0.5f, -0.5f, 0.5f}, {1.0f, 0.0f, 0.0f}},
-    {{0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-    {{0.5f, 0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-    {{0.5f, -0.5f, 0.5f}, {1.0f, 0.0f, 0.0f}},
-    {{0.5f, 0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-    {{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f, 0.0f}},
-    // Top
-    {{-0.5f, 0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
-    {{0.5f, 0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
-    {{0.5f, 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-    {{-0.5f, 0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
-    {{0.5f, 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-    {{-0.5f, 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-    // Bottom
-    {{-0.5f, -0.5f, -0.5f}, {0.0f, -1.0f, 0.0f}},
-    {{0.5f, -0.5f, -0.5f}, {0.0f, -1.0f, 0.0f}},
-    {{0.5f, -0.5f, 0.5f}, {0.0f, -1.0f, 0.0f}},
-    {{-0.5f, -0.5f, -0.5f}, {0.0f, -1.0f, 0.0f}},
-    {{0.5f, -0.5f, 0.5f}, {0.0f, -1.0f, 0.0f}},
-    {{-0.5f, -0.5f, 0.5f}, {0.0f, -1.0f, 0.0f}},
-};
-}  // namespace
-
 ViewportPanel::ViewportPanel() {
-    shader_ = Shader::FromFile("shaders/mesh.vert", "shaders/mesh.frag");
-    BuildCube();
+shader_ = Shader::FromFile("shaders/mesh.vert", "shaders/mesh.frag");
 }
 
 ViewportPanel::~ViewportPanel() {
-    Shutdown();
+Shutdown();
 }
 
-bool ViewportPanel::Render(SceneObject& object,
-                          const OrbitCamera& camera,
-                          ImGuizmo::OPERATION operation,
-                          ImGuizmo::MODE mode,
-                          bool isLocalMode,
-                          bool* isUsingGizmo,
-                          bool* isHoveredByGizmo) {
-(void)mode;
+bool ViewportPanel::Render(std::vector<SceneObject>& objects,
+                      int selectedIndex,
+                      const OrbitCamera& camera,
+                      const std::vector<SceneLight>& lights,
+                      ImGuizmo::OPERATION operation,
+                      ImGuizmo::MODE mode,
+                      bool isLocalMode,
+                      bool* isUsingGizmo,
+                      bool* isHoveredByGizmo) {
 ImGui::Begin("Viewport");
-    hovered_ = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows);
-    focused_ = ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows);
+hovered_ = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows);
+focused_ = ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows);
 
-    const ImVec2 contentSize = ImGui::GetContentRegionAvail();
-    if (contentSize.x > 1.0f && contentSize.y > 1.0f) {
-        framebuffer_.Resize(static_cast<int>(contentSize.x), static_cast<int>(contentSize.y));
-    }
+const ImVec2 contentSize = ImGui::GetContentRegionAvail();
+if (contentSize.x > 1.0f && contentSize.y > 1.0f) {
+    framebuffer_.Resize(static_cast<int>(contentSize.x), static_cast<int>(contentSize.y));
+}
 
-    RenderScene(camera, object);
+RenderScene(camera, objects, lights);
 
-    const ImVec2 cursorPos = ImGui::GetCursorScreenPos();
-    ImGui::Image((ImTextureID)(uintptr_t)framebuffer_.TextureID(), contentSize, ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+const ImVec2 cursorPos = ImGui::GetCursorScreenPos();
+ImGui::Image((ImTextureID)(uintptr_t)framebuffer_.TextureID(), contentSize, ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
 
+if (selectedIndex >= 0 && selectedIndex < static_cast<int>(objects.size())) {
     ImGuizmo::SetOrthographic(false);
-    ImGuizmo::SetDrawlist();
+    ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList());
     ImGuizmo::SetRect(cursorPos.x, cursorPos.y, contentSize.x, contentSize.y);
 
-    glm::mat4 model = object.WorldMatrix();
+    glm::mat4 model = objects[selectedIndex].WorldMatrix();
     glm::mat4 view = camera.ViewMatrix();
     glm::mat4 projection = camera.ProjectionMatrix(contentSize.x / std::max(1.0f, contentSize.y));
 
@@ -108,9 +57,9 @@ ImGui::Begin("Viewport");
         float rotation[3];
         float scale[3];
         ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(model), translation, rotation, scale);
-        object.transform.position = glm::vec3(translation[0], translation[1], translation[2]);
-        object.transform.rotation = glm::quat(glm::radians(glm::vec3(rotation[0], rotation[1], rotation[2])));
-        object.transform.scale = glm::vec3(scale[0], scale[1], scale[2]);
+        objects[selectedIndex].transform.position = glm::vec3(translation[0], translation[1], translation[2]);
+        objects[selectedIndex].transform.rotation = glm::quat(glm::radians(glm::vec3(rotation[0], rotation[1], rotation[2])));
+        objects[selectedIndex].transform.scale = glm::vec3(scale[0], scale[1], scale[2]);
     }
 
     if (isUsingGizmo != nullptr) {
@@ -119,83 +68,84 @@ ImGui::Begin("Viewport");
     if (isHoveredByGizmo != nullptr) {
         *isHoveredByGizmo = ImGuizmo::IsOver();
     }
+}
 
-    ImGui::End();
-    return changed;
+ImGui::End();
+return false;
 }
 
 void ViewportPanel::Shutdown() {
-    if (vbo_ != 0) {
-        glDeleteBuffers(1, &vbo_);
-        vbo_ = 0;
-    }
-    if (vao_ != 0) {
-        glDeleteVertexArrays(1, &vao_);
-        vao_ = 0;
-    }
-    shader_.Destroy();
-    framebuffer_.Destroy();
-    hovered_ = false;
-    focused_ = false;
+shader_.Destroy();
+framebuffer_.Destroy();
+hovered_ = false;
+focused_ = false;
 }
 
 bool ViewportPanel::IsHovered() const {
-    return hovered_;
+return hovered_;
 }
 
 bool ViewportPanel::IsFocused() const {
-    return focused_;
+return focused_;
 }
 
 unsigned int ViewportPanel::TextureID() const {
-    return framebuffer_.TextureID();
+return framebuffer_.TextureID();
 }
 
 glm::ivec2 ViewportPanel::Size() const {
-    return framebuffer_.Size();
+return framebuffer_.Size();
 }
 
-void ViewportPanel::BuildCube() {
-    glGenVertexArrays(1, &vao_);
-    glBindVertexArray(vao_);
-
-    glGenBuffers(1, &vbo_);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(kCubeVertices), kCubeVertices, GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, position)));
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, normal)));
-
-    glBindVertexArray(0);
+void ViewportPanel::RenderScene(const OrbitCamera& camera, const std::vector<SceneObject>& objects, const std::vector<SceneLight>& lights) const {
+const glm::ivec2 size = framebuffer_.Size();
+if (size.x <= 0 || size.y <= 0) {
+    return;
 }
 
-void ViewportPanel::RenderScene(const OrbitCamera& camera, const SceneObject& object) const {
-    const glm::ivec2 size = framebuffer_.Size();
-    if (size.x <= 0 || size.y <= 0) {
-        return;
-    }
+framebuffer_.Bind();
+glViewport(0, 0, size.x, size.y);
+glEnable(GL_DEPTH_TEST);
+glClearColor(0.12f, 0.13f, 0.17f, 1.0f);
+glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    framebuffer_.Bind();
-    glViewport(0, 0, size.x, size.y);
-    glEnable(GL_DEPTH_TEST);
-    glClearColor(0.08f, 0.09f, 0.12f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+glUseProgram(shader_.GetId());
+const glm::mat4 view = camera.ViewMatrix();
+const glm::mat4 projection = camera.ProjectionMatrix(static_cast<float>(size.x) / static_cast<float>(size.y));
+shader_.SetMat4("uView", view);
+shader_.SetMat4("uProjection", projection);
+shader_.SetVec3("uCameraPos", camera.Position());
 
-    glUseProgram(shader_.GetId());
-    const glm::mat4 model = object.WorldMatrix();
-    const glm::mat4 view = camera.ViewMatrix();
-    const glm::mat4 projection = camera.ProjectionMatrix(static_cast<float>(size.x) / static_cast<float>(size.y));
-    shader_.SetMat4("uModel", model);
-    shader_.SetMat4("uView", view);
-    shader_.SetMat4("uProjection", projection);
+glm::vec3 ambient(0.18f, 0.2f, 0.25f);
+glm::vec3 dirLight(0.6f, 0.75f, 1.0f);
+shader_.SetVec3("uAmbient", ambient);
+shader_.SetVec3("uLightDir", glm::normalize(glm::vec3(-0.7f, -1.0f, -0.5f)));
+shader_.SetVec3("uLightColor", dirLight);
+
+if (!lights.empty()) {
+    const SceneLight& light = lights.front();
+    shader_.SetVec3("uLightDir", glm::normalize(light.position - glm::vec3(0.0f, 0.0f, 0.0f)));
+    shader_.SetVec3("uLightColor", light.color * light.intensity);
+}
+
+SceneObject ground;
+ground.name = "Ground";
+ground.SetPlaneMesh();
+ground.transform.position = glm::vec3(0.0f, -1.0f, 0.0f);
+ground.transform.scale = glm::vec3(12.0f, 1.0f, 12.0f);
+ground.color = glm::vec4(0.67f, 0.68f, 0.72f, 1.0f);
+ground.EnsureUpload();
+shader_.SetMat4("uModel", ground.WorldMatrix());
+shader_.SetVec4("uColor", ground.color);
+ground.Draw();
+
+for (const auto& object : objects) {
+    object.EnsureUpload();
+    shader_.SetMat4("uModel", object.WorldMatrix());
     shader_.SetVec4("uColor", object.color);
+    object.Draw();
+}
 
-    glBindVertexArray(vao_);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    glBindVertexArray(0);
-
-    framebuffer_.Unbind();
-    glUseProgram(0);
+glUseProgram(0);
+framebuffer_.Unbind();
 }

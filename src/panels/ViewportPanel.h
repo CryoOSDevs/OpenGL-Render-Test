@@ -10,13 +10,21 @@
 #include "../SceneObject.h"
 #include "../Shader.h"
 
+struct SceneLight {
+    glm::vec3 position{0.0f, 2.0f, 3.0f};
+    glm::vec3 color{1.0f, 1.0f, 1.0f};
+    float intensity = 1.0f;
+};
+
 class ViewportPanel {
 public:
     ViewportPanel();
     ~ViewportPanel();
 
-    bool Render(SceneObject& object,
+    bool Render(std::vector<SceneObject>& objects,
+                int selectedIndex,
                 const OrbitCamera& camera,
+                const std::vector<SceneLight>& lights,
                 ImGuizmo::OPERATION operation,
                 ImGuizmo::MODE mode,
                 bool isLocalMode,
@@ -30,13 +38,10 @@ public:
     glm::ivec2 Size() const;
 
 private:
-    void BuildCube();
-    void RenderScene(const OrbitCamera& camera, const SceneObject& object) const;
+    void RenderScene(const OrbitCamera& camera, const std::vector<SceneObject>& objects, const std::vector<SceneLight>& lights) const;
 
     Framebuffer framebuffer_;
     Shader shader_;
-    unsigned int vao_ = 0;
-    unsigned int vbo_ = 0;
     bool hovered_ = false;
     bool focused_ = false;
 };
