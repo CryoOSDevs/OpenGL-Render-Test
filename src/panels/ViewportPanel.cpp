@@ -59,6 +59,7 @@ Shutdown();
 
 bool ViewportPanel::Render(std::vector<SceneObject>& objects,
                       int* selectedIndex,
+                      int* selectedLightIndex,
                       const OrbitCamera& camera,
                       const std::vector<SceneLight>& lights,
                       ImGuizmo::OPERATION operation,
@@ -66,98 +67,136 @@ bool ViewportPanel::Render(std::vector<SceneObject>& objects,
                       bool isLocalMode,
                       bool* isUsingGizmo,
                       bool* isHoveredByGizmo) {
-(void)mode;
-ImGui::SetNextWindowDockID(ImGui::GetID("LauraEditorDockspace"), ImGuiCond_Once);
-ImGui::Begin("Viewport");
-hovered_ = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows);
-focused_ = ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows);
-
-const ImVec2 contentSize = ImGui::GetContentRegionAvail();
-if (contentSize.x > 1.0f && contentSize.y > 1.0f) {
-    framebuffer_.Resize(static_cast<int>(contentSize.x), static_cast<int>(contentSize.y));
-}
-
-const int selectedObjectIndex = (selectedIndex != nullptr && *selectedIndex >= 0 && *selectedIndex < static_cast<int>(objects.size())) ? *selectedIndex : -1;
-RenderScene(camera, objects, lights, selectedObjectIndex);
-
-const ImVec2 cursorPos = ImGui::GetCursorScreenPos();
-ImGui::Image((ImTextureID)(uintptr_t)framebuffer_.TextureID(), contentSize, ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
-
-if (selectedIndex != nullptr && *selectedIndex >= 0 && *selectedIndex < static_cast<int>(objects.size())) {
-    ImGuizmo::SetOrthographic(false);
-    ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList());
-    ImGuizmo::SetRect(cursorPos.x, cursorPos.y, contentSize.x, contentSize.y);
-
-    glm::mat4 model = objects[*selectedIndex].WorldMatrix();
-    glm::mat4 view = camera.ViewMatrix();
-    glm::mat4 projection = camera.ProjectionMatrix(contentSize.x / std::max(1.0f, contentSize.y));
-
+    (void)mode;
     bool changed = false;
+    ImGui::SetNextWindowDockID(ImGui::GetID("LauraEditorDockspace"), ImGuiCond_Once);
+    ImGui::Begin("Viewport");
+    hovered_ = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows);
+    focused_ = ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows);
+
+    const ImVec2 contentSize = ImGui::GetContentRegionAvail();
     if (contentSize.x > 1.0f && contentSize.y > 1.0f) {
-        changed = ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(projection), operation,
-                                      isLocalMode ? ImGuizmo::LOCAL : ImGuizmo::WORLD, glm::value_ptr(model));
+        framebuffer_.Resize(static_cast<int>(contentSize.x), static_cast<int>(contentSize.y));
     }
 
-    if (changed) {
-        float translation[3];
-        float rotation[3];
-        float scale[3];
-        ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(model), translation, rotation, scale);
-        objects[*selectedIndex].transform.position = glm::vec3(translation[0], translation[1], translation[2]);
-        objects[*selectedIndex].transform.rotation = glm::quat(glm::radians(glm::vec3(rotation[0], rotation[1], rotation[2])));
-        objects[*selectedIndex].transform.scale = glm::vec3(scale[0], scale[1], scale[2]);
+    const int selectedObjectIndex = (selectedIndex != nullptr && *selectedIndex >= 0 && *selectedIndex < static_cast<int>(objects.size())) ? *selectedIndex : -1;
+    RenderScene(camera, objects, lights, selectedObjectIndex);
+
+    const ImVec2 cursorPos = ImGui::GetCursorScreenPos();
+    ImGui::Image((ImTextureID)(uintptr_t)framebuffer_.TextureID(), contentSize, ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+
+    // Object gizmo
+    if (selectedIndex != nullptr && *selectedIndex >= 0 && *selectedIndex < static_cast<int>(objects.size())) {
+        ImGuizmo::SetOrthographic(false);
+        ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList());
+        ImGuizmo::SetRect(cursorPos.x, cursorPos.y, contentSize.x, contentSize.y);
+
+        glm::mat4 model = objects[*selectedIndex].WorldMatrix();
+        glm::mat4 view = camera.ViewMatrix();
+        glm::mat4 projection = camera.ProjectionMatrix(contentSize.x / std::max(1.0f, contentSize.y));
+
+        bool gizmoChanged = false;
+        if (contentSize.x > 1.0f && contentSize.y > 1.0f) {
+            gizmoChanged = ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(projection), operation,
+                                              isLocalMode ? ImGuizmo::LOCAL : ImGuizmo::WORLD, glm::value_ptr(model));
+        }
+
+        if (gizmoChanged) {
+            float translation[3];
+            float rotation[3];
+            float scale[3];
+            ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(model), translation, rotation, scale);
+            objects[*selectedIndex].transform.position = glm::vec3(translation[0], translation[1], translation[2]);
+            objects[*selectedIndex].transform.rotation = glm::quat(glm::radians(glm::vec3(rotation[0], rotation[1], rotation[2])));
+            objects[*selectedIndex].transform.scale = glm::vec3(scale[0], scale[1], scale[2]);
+            changed = true;
+        }
+
+        if (isUsingGizmo != nullptr) {
+            *isUsingGizmo = ImGuizmo::IsUsing();
+        }
+        if (isHoveredByGizmo != nullptr) {
+            *isHoveredByGizmo = ImGuizmo::IsOver();
+        }
     }
 
-    if (isUsingGizmo != nullptr) {
-        *isUsingGizmo = ImGuizmo::IsUsing();
-    }
-    if (isHoveredByGizmo != nullptr) {
-        *isHoveredByGizmo = ImGuizmo::IsOver();
-    }
-}
+    // Light gizmo: allow translating a selected light with the gizmo
+    if ((selectedIndex == nullptr || *selectedIndex < 0) && selectedLightIndex != nullptr && *selectedLightIndex >= 0 && *selectedLightIndex < static_cast<int>(lights.size())) {
+        ImGuizmo::SetOrthographic(false);
+        ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList());
+        ImGuizmo::SetRect(cursorPos.x, cursorPos.y, contentSize.x, contentSize.y);
 
-if (selectedIndex != nullptr && ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows) &&
-    ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGuizmo::IsOver()) {
-    const ImVec2 mousePos = ImGui::GetMousePos();
-    const ImVec2 windowMin = ImGui::GetWindowPos();
-    const ImVec2 mouseLocal = ImVec2(mousePos.x - windowMin.x - ImGui::GetWindowContentRegionMin().x,
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), lights[*selectedLightIndex].position);
+        glm::mat4 view = camera.ViewMatrix();
+        glm::mat4 projection = camera.ProjectionMatrix(contentSize.x / std::max(1.0f, contentSize.y));
+
+        bool gizmoChanged = false;
+        // For lights, only translation makes sense; force TRANSLATE
+        if (contentSize.x > 1.0f && contentSize.y > 1.0f) {
+            gizmoChanged = ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(projection), ImGuizmo::TRANSLATE,
+                                              ImGuizmo::WORLD, glm::value_ptr(model));
+        }
+
+        if (gizmoChanged) {
+            float translation[3];
+            float rotation[3];
+            float scale[3];
+            ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(model), translation, rotation, scale);
+            // Update the light position
+            const_cast<SceneLight&>(lights[*selectedLightIndex]).position = glm::vec3(translation[0], translation[1], translation[2]);
+            changed = true;
+        }
+
+        if (isUsingGizmo != nullptr) {
+            *isUsingGizmo = ImGuizmo::IsUsing();
+        }
+        if (isHoveredByGizmo != nullptr) {
+            *isHoveredByGizmo = ImGuizmo::IsOver();
+        }
+    }
+
+    if (selectedIndex != nullptr && ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows) &&
+        ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGuizmo::IsOver()) {
+        const ImVec2 mousePos = ImGui::GetMousePos();
+        const ImVec2 windowMin = ImGui::GetWindowPos();
+        const ImVec2 mouseLocal = ImVec2(mousePos.x - windowMin.x - ImGui::GetWindowContentRegionMin().x,
                                       mousePos.y - windowMin.y - ImGui::GetWindowContentRegionMin().y);
-    const glm::vec2 mouseNdc(
-        (mouseLocal.x / std::max(1.0f, contentSize.x)) * 2.0f - 1.0f,
-        1.0f - (mouseLocal.y / std::max(1.0f, contentSize.y)) * 2.0f);
+        const glm::vec2 mouseNdc(
+            (mouseLocal.x / std::max(1.0f, contentSize.x)) * 2.0f - 1.0f,
+            1.0f - (mouseLocal.y / std::max(1.0f, contentSize.y)) * 2.0f);
 
-    const glm::mat4 view = camera.ViewMatrix();
-    const glm::mat4 projection = camera.ProjectionMatrix(contentSize.x / std::max(1.0f, contentSize.y));
-    const glm::vec4 nearClip(mouseNdc.x, mouseNdc.y, -1.0f, 1.0f);
-    const glm::vec4 farClip(mouseNdc.x, mouseNdc.y, 1.0f, 1.0f);
-    const glm::vec4 nearWorld = glm::inverse(projection * view) * nearClip;
-    const glm::vec4 farWorld = glm::inverse(projection * view) * farClip;
-    const glm::vec3 rayOrigin = glm::vec3(nearWorld.x, nearWorld.y, nearWorld.z) / nearWorld.w;
-    const glm::vec3 rayDirection = glm::normalize((glm::vec3(farWorld.x, farWorld.y, farWorld.z) / farWorld.w) - rayOrigin);
+        const glm::mat4 view = camera.ViewMatrix();
+        const glm::mat4 projection = camera.ProjectionMatrix(contentSize.x / std::max(1.0f, contentSize.y));
+        const glm::vec4 nearClip(mouseNdc.x, mouseNdc.y, -1.0f, 1.0f);
+        const glm::vec4 farClip(mouseNdc.x, mouseNdc.y, 1.0f, 1.0f);
+        const glm::vec4 nearWorld = glm::inverse(projection * view) * nearClip;
+        const glm::vec4 farWorld = glm::inverse(projection * view) * farClip;
+        const glm::vec3 rayOrigin = glm::vec3(nearWorld.x, nearWorld.y, nearWorld.z) / nearWorld.w;
+        const glm::vec3 rayDirection = glm::normalize((glm::vec3(farWorld.x, farWorld.y, farWorld.z) / farWorld.w) - rayOrigin);
 
-    int picked = -1;
-    float closest = std::numeric_limits<float>::max();
-    for (int i = 0; i < static_cast<int>(objects.size()); ++i) {
-        const auto& object = objects[i];
-        if (object.name == "Ground") {
-            continue;
+        int picked = -1;
+        float closest = std::numeric_limits<float>::max();
+        for (int i = 0; i < static_cast<int>(objects.size()); ++i) {
+            const auto& object = objects[i];
+            if (object.name == "Ground") {
+                continue;
+            }
+            const glm::vec3 center = object.WorldCenter();
+            const float radius = object.WorldRadius();
+            float hitDistance = 0.0f;
+            if (IntersectRaySphere(rayOrigin, rayDirection, center, radius, &hitDistance) && hitDistance < closest) {
+                closest = hitDistance;
+                picked = i;
+            }
         }
-        const glm::vec3 center = object.WorldCenter();
-        const float radius = object.WorldRadius();
-        float hitDistance = 0.0f;
-        if (IntersectRaySphere(rayOrigin, rayDirection, center, radius, &hitDistance) && hitDistance < closest) {
-            closest = hitDistance;
-            picked = i;
+
+        if (picked >= 0) {
+            *selectedIndex = picked;
         }
     }
 
-    if (picked >= 0) {
-        *selectedIndex = picked;
-    }
-}
-
-ImGui::End();
-return false;
+    ImGui::End();
+    return changed;
 }
 
 void ViewportPanel::Shutdown() {
@@ -202,22 +241,23 @@ shader_.SetMat4("uView", view);
 shader_.SetMat4("uProjection", projection);
 shader_.SetVec3("uCameraPos", camera.Position());
 
-glm::vec3 ambient(0.35f, 0.38f, 0.45f);
-glm::vec3 dirLightColor(0.72f, 0.73f, 0.80f);
+glm::vec3 ambient(0.32f, 0.35f, 0.42f);
+glm::vec3 dirLightColor(0.75f, 0.76f, 0.83f);
 glm::vec3 dirLightDirection = glm::normalize(glm::vec3(-0.7f, -1.0f, -0.5f));
 shader_.SetVec3("uAmbient", ambient);
 shader_.SetVec3("uDirLightDir", dirLightDirection);
 shader_.SetVec3("uDirLightColor", dirLightColor);
 
-glm::vec3 pointLightPos(0.0f, 4.8f, 2.6f);
-glm::vec3 pointLightColor(1.0f, 0.96f, 0.9f);
-if (!lights.empty()) {
-    const SceneLight& light = lights.front();
-    pointLightPos = light.position;
-    pointLightColor = light.color * light.intensity;
+const int lightCount = std::min<int>(static_cast<int>(lights.size()), 8);
+shader_.SetInt("uLightCount", lightCount);
+for (int i = 0; i < lightCount; ++i) {
+    const SceneLight& light = lights[i];
+    const glm::vec3 lightColor = light.color * light.intensity;
+    const std::string posName = "uPointLightPos[" + std::to_string(i) + "]";
+    const std::string colorName = "uPointLightColor[" + std::to_string(i) + "]";
+    glUniform3fv(glGetUniformLocation(shader_.GetId(), posName.c_str()), 1, &light.position[0]);
+    glUniform3fv(glGetUniformLocation(shader_.GetId(), colorName.c_str()), 1, &lightColor[0]);
 }
-shader_.SetVec3("uPointLightPos", pointLightPos);
-shader_.SetVec3("uPointLightColor", pointLightColor);
 
 SceneObject ground;
 ground.name = "Ground";

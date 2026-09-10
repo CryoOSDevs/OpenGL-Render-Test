@@ -6,5 +6,5 @@
 
 class DetailsPanel {
 public:
-    void Render(SceneObject& object);
+    bool Render(SceneObject& object);
 };

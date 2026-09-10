@@ -44,6 +44,7 @@ To run the editor:
 - W / A / S / D: move the camera in the viewport
 - Q / E: move the camera up and down
 - Shift: move faster
+- Ctrl + Z: undo the last editor change
 - W: translate gizmo
 - E: rotate gizmo
 - R: scale gizmo

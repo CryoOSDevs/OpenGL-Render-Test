@@ -7,8 +7,9 @@ uniform vec4 uColor;
 uniform vec3 uAmbient;
 uniform vec3 uDirLightDir;
 uniform vec3 uDirLightColor;
-uniform vec3 uPointLightPos;
-uniform vec3 uPointLightColor;
+uniform int uLightCount;
+uniform vec3 uPointLightPos[8];
+uniform vec3 uPointLightColor[8];
 uniform vec3 uCameraPos;
 uniform float uSelected;
 
@@ -18,24 +19,30 @@ void main() {
     vec3 N = normalize(vNormal);
     vec3 V = normalize(uCameraPos - vWorldPos);
 
+    vec3 direct = vec3(0.0);
     vec3 Ld = normalize(-uDirLightDir);
     float diffDir = max(dot(N, Ld), 0.0);
     vec3 Hd = normalize(Ld + V);
     float specDir = pow(max(dot(N, Hd), 0.0), 32.0);
+    direct += uDirLightColor * diffDir;
+    direct += uDirLightColor * specDir * 0.35;
 
-    vec3 pointVec = uPointLightPos - vWorldPos;
-    float pointDist = length(pointVec);
-    vec3 Lp = normalize(pointVec);
-    float pointAtten = 1.0 / (1.0 + 0.18 * pointDist + 0.032 * pointDist * pointDist);
-    float diffPoint = max(dot(N, Lp), 0.0);
-    vec3 Hp = normalize(Lp + V);
-    float specPoint = pow(max(dot(N, Hp), 0.0), 32.0);
+    for (int i = 0; i < 8; ++i) {
+        if (i >= uLightCount) {
+            break;
+        }
+        vec3 pointVec = uPointLightPos[i] - vWorldPos;
+        float pointDist = length(pointVec);
+        vec3 Lp = normalize(pointVec);
+        float pointAtten = 1.0 / (1.0 + 0.18 * pointDist + 0.032 * pointDist * pointDist);
+        float diffPoint = max(dot(N, Lp), 0.0);
+        vec3 Hp = normalize(Lp + V);
+        float specPoint = pow(max(dot(N, Hp), 0.0), 32.0);
+        direct += uPointLightColor[i] * diffPoint * pointAtten;
+        direct += uPointLightColor[i] * specPoint * pointAtten * 0.45;
+    }
 
-    vec3 lit = uColor.rgb * (uAmbient +
-                            uDirLightColor * diffDir +
-                            uDirLightColor * specDir * 0.35 +
-                            uPointLightColor * diffPoint * pointAtten +
-                            uPointLightColor * specPoint * pointAtten * 0.45);
+    vec3 lit = uColor.rgb * (uAmbient + direct);
 
     if (uSelected > 0.5) {
         lit = mix(lit, vec3(0.75, 0.9, 1.0), 0.55);

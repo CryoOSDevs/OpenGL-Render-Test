@@ -34,6 +34,27 @@ struct AssetEntry {
     std::string label;
 };
 
+struct EditorSnapshot {
+    std::vector<SceneObject> objects;
+    std::vector<SceneLight> lights;
+    int selectedIndex = 0;
+};
+
+EditorSnapshot CaptureEditorState(const std::vector<SceneObject>& objects,
+                                 const std::vector<SceneLight>& lights,
+                                 int selectedIndex) {
+    return {objects, lights, selectedIndex};
+}
+
+void RestoreEditorState(std::vector<SceneObject>& objects,
+                        std::vector<SceneLight>& lights,
+                        int& selectedIndex,
+                        const EditorSnapshot& snapshot) {
+    objects = snapshot.objects;
+    lights = snapshot.lights;
+    selectedIndex = snapshot.selectedIndex;
+}
+
 void ScrollCallback(GLFWwindow* /*window*/, double /*xoffset*/, double yoffset) {
     gScrollDelta += yoffset;
 }
@@ -423,9 +444,11 @@ int main() {
     std::vector<AssetEntry> assetEntries = RefreshAssets();
     std::filesystem::path selectedAsset;
     int selectedIndex = 0;
+    int selectedLightIndex = -1;
     int selectedAssetIndex = -1;
     ImGuizmo::OPERATION gizmoOperation = ImGuizmo::TRANSLATE;
     bool localWorld = false;
+    std::vector<EditorSnapshot> undoStack;
 
     ViewportPanel viewportPanel;
     DetailsPanel detailsPanel;
@@ -437,6 +460,13 @@ int main() {
     double lastFrame = glfwGetTime();
 
     static bool layoutInitialized = false;
+
+    auto pushHistory = [&]() {
+        undoStack.push_back(CaptureEditorState(sceneObjects, lights, selectedIndex));
+        if (undoStack.size() > 32) {
+            undoStack.erase(undoStack.begin());
+        }
+    };
 
     while (!glfwWindowShouldClose(window)) {
         const double now = glfwGetTime();
@@ -495,13 +525,23 @@ int main() {
         ImGui::SetNextWindowDockID(dockspaceId, ImGuiCond_Once);
         ImGui::Begin("Toolbar", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
         if (ImGui::Button("Add Cube")) {
+            pushHistory();
             SceneObject newObject = MakeDefaultCube("Cube", glm::vec3(2.0f * static_cast<float>(sceneObjects.size()), 0.0f, 0.0f));
             sceneObjects.push_back(newObject);
             selectedIndex = static_cast<int>(sceneObjects.size()) - 1;
         }
         ImGui::SameLine();
         if (ImGui::Button("Add Light")) {
-            lights.push_back({glm::vec3(0.0f, 2.5f, 0.0f), glm::vec3(1.0f, 0.95f, 0.84f), 1.0f});
+            pushHistory();
+            lights.push_back({glm::vec3(0.0f, 2.5f, 2.0f), glm::vec3(1.0f, 0.95f, 0.84f), 1.2f});
+            if (!lights.empty()) {
+                const auto& light = lights.back();
+                std::cout << "Added light at " << light.position.x << ", " << light.position.y << ", " << light.position.z << std::endl;
+            }
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Reset Layout")) {
+            layoutInitialized = false;
         }
         ImGui::SameLine();
         if (ImGui::Button("Translate")) gizmoOperation = ImGuizmo::TRANSLATE;
@@ -514,8 +554,13 @@ int main() {
         ImGui::SameLine();
         ImGui::SliderFloat("Move Speed", &moveSpeed, 0.5f, 20.0f, "%.1f");
         ImGui::SameLine();
-        ImGui::Text("  %zu objects", sceneObjects.size());
+        ImGui::Text("  %zu objects | %zu lights", sceneObjects.size(), lights.size());
         ImGui::End();
+
+        if ((io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Z)) && !undoStack.empty()) {
+            RestoreEditorState(sceneObjects, lights, selectedIndex, undoStack.back());
+            undoStack.pop_back();
+        }
 
         if (ImGui::IsKeyPressed(ImGuiKey_W)) gizmoOperation = ImGuizmo::TRANSLATE;
         if (ImGui::IsKeyPressed(ImGuiKey_E)) gizmoOperation = ImGuizmo::ROTATE;
@@ -524,10 +569,22 @@ int main() {
 
         ImGui::SetNextWindowDockID(dockspaceId, ImGuiCond_Once);
         ImGui::Begin("Outliner");
+        ImGui::Text("Scene Objects:");
         for (size_t i = 0; i < sceneObjects.size(); ++i) {
-            const bool selected = static_cast<int>(i) == selectedIndex;
+            const bool selected = (selectedIndex >= 0 && static_cast<int>(i) == selectedIndex);
             if (ImGui::Selectable(sceneObjects[i].name.c_str(), selected)) {
                 selectedIndex = static_cast<int>(i);
+                selectedLightIndex = -1;
+            }
+        }
+        ImGui::Separator();
+        ImGui::Text("Lights:");
+        for (size_t i = 0; i < lights.size(); ++i) {
+            std::string label = "Light " + std::to_string(i);
+            const bool selected = (selectedLightIndex >= 0 && static_cast<int>(i) == selectedLightIndex);
+            if (ImGui::Selectable(label.c_str(), selected)) {
+                selectedLightIndex = static_cast<int>(i);
+                selectedIndex = -1;
             }
         }
         ImGui::End();
@@ -537,6 +594,14 @@ int main() {
         if (ImGui::Button("Refresh")) {
             assetEntries = RefreshAssets();
         }
+        ImGui::SameLine();
+        if (ImGui::Button("Create Assets Folder")) {
+            std::filesystem::create_directories(std::filesystem::current_path() / "assets");
+            assetEntries = RefreshAssets();
+        }
+        if (assetEntries.empty()) {
+            ImGui::TextDisabled("No supported assets found in assets/.");
+        }
         for (int i = 0; i < static_cast<int>(assetEntries.size()); ++i) {
             if (ImGui::Selectable(assetEntries[i].label.c_str(), selectedAssetIndex == i)) {
                 selectedAssetIndex = i;
@@ -545,12 +610,14 @@ int main() {
         }
         if (!selectedAsset.empty()) {
             if (ImGui::Button("Import Selected")) {
+                pushHistory();
                 SceneObject imported;
                 if (ImportAsset(selectedAsset, imported)) {
                     imported.transform.position = glm::vec3(0.0f, 0.5f, 0.0f);
                     imported.color = glm::vec4(0.59f, 0.78f, 0.85f, 1.0f);
                     sceneObjects.push_back(imported);
                     selectedIndex = static_cast<int>(sceneObjects.size()) - 1;
+                    selectedLightIndex = -1;
                 }
             }
             ImGui::SameLine();
@@ -559,14 +626,46 @@ int main() {
         ImGui::End();
 
         if (selectedIndex >= 0 && selectedIndex < static_cast<int>(sceneObjects.size())) {
-            detailsPanel.Render(sceneObjects[selectedIndex]);
+            const auto beforeState = CaptureEditorState(sceneObjects, lights, selectedIndex);
+            const bool detailsChanged = detailsPanel.Render(sceneObjects[selectedIndex]);
+            if (detailsChanged) {
+                undoStack.push_back(beforeState);
+                if (undoStack.size() > 32) {
+                    undoStack.erase(undoStack.begin());
+                }
+            }
+        }
+
+        // Light properties editing
+        if (selectedLightIndex >= 0 && selectedLightIndex < static_cast<int>(lights.size())) {
+            ImGui::SetNextWindowDockID(dockspaceId, ImGuiCond_Once);
+            ImGui::Begin("Light Details");
+            ImGui::Text("Light %d", selectedLightIndex);
+            glm::vec3 col = lights[selectedLightIndex].color;
+            if (ImGui::ColorEdit3("Color", &col.x)) {
+                pushHistory();
+                lights[selectedLightIndex].color = col;
+            }
+            float intensity = lights[selectedLightIndex].intensity;
+            if (ImGui::SliderFloat("Intensity", &intensity, 0.0f, 5.0f)) {
+                pushHistory();
+                lights[selectedLightIndex].intensity = intensity;
+            }
+            ImGui::End();
         }
 
         bool usedGizmo = false;
         bool hoveredByGizmo = false;
-        viewportPanel.Render(sceneObjects, &selectedIndex, camera, lights, gizmoOperation,
-                            localWorld ? ImGuizmo::LOCAL : ImGuizmo::WORLD,
-                            localWorld, &usedGizmo, &hoveredByGizmo);
+        const auto beforeViewportState = CaptureEditorState(sceneObjects, lights, selectedIndex);
+        const bool viewportChanged = viewportPanel.Render(sceneObjects, &selectedIndex, &selectedLightIndex, camera, lights, gizmoOperation,
+                                                         localWorld ? ImGuizmo::LOCAL : ImGuizmo::WORLD,
+                                                         localWorld, &usedGizmo, &hoveredByGizmo);
+        if (viewportChanged) {
+            undoStack.push_back(beforeViewportState);
+            if (undoStack.size() > 32) {
+                undoStack.erase(undoStack.begin());
+            }
+        }
 
         if (viewportPanel.IsHovered() && !usedGizmo && !hoveredByGizmo) {
             const bool shiftPressed = glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ||
@@ -580,6 +679,11 @@ int main() {
             if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) camera.MoveSideways(keyboardMove);
             if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) camera.MoveUp(-keyboardMove);
             if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) camera.MoveUp(keyboardMove);
+
+            // Additional raw-key shortcuts to change gizmo mode even if ImGui captures keyboard
+            if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !io.WantCaptureKeyboard) gizmoOperation = ImGuizmo::TRANSLATE;
+            if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && !io.WantCaptureKeyboard) gizmoOperation = ImGuizmo::ROTATE;
+            if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS && !io.WantCaptureKeyboard) gizmoOperation = ImGuizmo::SCALE;
 
             double mouseX = 0.0;
             double mouseY = 0.0;

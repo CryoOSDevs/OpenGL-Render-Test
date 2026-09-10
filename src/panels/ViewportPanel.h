@@ -23,6 +23,7 @@ public:
 
     bool Render(std::vector<SceneObject>& objects,
                 int* selectedIndex,
+                int* selectedLightIndex,
                 const OrbitCamera& camera,
                 const std::vector<SceneLight>& lights,
                 ImGuizmo::OPERATION operation,
