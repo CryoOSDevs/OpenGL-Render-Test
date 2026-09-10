@@ -59,6 +59,43 @@ void ScrollCallback(GLFWwindow* /*window*/, double /*xoffset*/, double yoffset) 
     gScrollDelta += yoffset;
 }
 
+void DropCallback(GLFWwindow* /*window*/, int count, const char** paths) {
+    const auto assetDir = std::filesystem::current_path() / "assets";
+    try {
+        std::filesystem::create_directories(assetDir);
+        for (int i = 0; i < count; ++i) {
+            const std::filesystem::path src(paths[i]);
+            if (!std::filesystem::exists(src)) continue;
+            const auto dest = assetDir / src.filename();
+            std::error_code ec;
+            std::filesystem::copy_file(src, dest, std::filesystem::copy_options::overwrite_existing, ec);
+            if (ec) {
+                std::cerr << "Failed to copy dropped file: " << ec.message() << std::endl;
+            } else {
+                std::cout << "Copied " << src << " -> " << dest << std::endl;
+            }
+        }
+    } catch (const std::exception& ex) {
+        std::cerr << "Drop handling failed: " << ex.what() << std::endl;
+    }
+}
+
+// Try to open a native file dialog using zenity (Linux). Returns semi-colon separated paths or empty.
+static std::string OpenFileDialog() {
+    // Try zenity first
+    FILE* pipe = popen("zenity --file-selection --multiple --separator=::", "r");
+    if (!pipe) return std::string();
+    char buffer[4096];
+    std::string result;
+    while (fgets(buffer, sizeof(buffer), pipe)) {
+        result += buffer;
+    }
+    pclose(pipe);
+    // Trim newline
+    while (!result.empty() && (result.back() == '\n' || result.back() == '\r')) result.pop_back();
+    return result;
+}
+
 void ApplyEditorStyle() {
     ImGuiStyle& style = ImGui::GetStyle();
     style.WindowPadding = ImVec2(10.0f, 8.0f);
@@ -411,6 +448,7 @@ int main() {
 
     glfwMakeContextCurrent(window);
     glfwSetScrollCallback(window, ScrollCallback);
+    glfwSetDropCallback(window, DropCallback);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cerr << "Failed to initialize GLAD." << std::endl;
@@ -575,21 +613,25 @@ int main() {
         ImGui::Begin("Outliner");
         ImGui::Text("Scene Objects:");
         for (size_t i = 0; i < sceneObjects.size(); ++i) {
+            ImGui::PushID(static_cast<int>(i));
             const bool selected = (selectedIndex >= 0 && static_cast<int>(i) == selectedIndex);
             if (ImGui::Selectable(sceneObjects[i].name.c_str(), selected)) {
                 selectedIndex = static_cast<int>(i);
                 selectedLightIndex = -1;
             }
+            ImGui::PopID();
         }
         ImGui::Separator();
         ImGui::Text("Lights:");
         for (size_t i = 0; i < lights.size(); ++i) {
+            ImGui::PushID(1000 + static_cast<int>(i));
             std::string label = "Light " + std::to_string(i);
             const bool selected = (selectedLightIndex >= 0 && static_cast<int>(i) == selectedLightIndex);
             if (ImGui::Selectable(label.c_str(), selected)) {
                 selectedLightIndex = static_cast<int>(i);
                 selectedIndex = -1;
             }
+            ImGui::PopID();
         }
         ImGui::End();
 
@@ -602,16 +644,54 @@ int main() {
         if (ImGui::Button("Create Assets Folder")) {
             std::filesystem::create_directories(std::filesystem::current_path() / "assets");
             assetEntries = RefreshAssets();
+            ImGui::OpenPopup("AssetsFolderCreated");
         }
+        ImGui::SameLine();
+        if (ImGui::Button("Import File...")) {
+            const std::string chosen = OpenFileDialog();
+            if (!chosen.empty()) {
+                // zenity returns :: separated list
+                const std::vector<std::string> parts = Split(chosen, ':');
+                for (const auto& p : parts) {
+                    const std::string path = p;
+                    if (path.empty()) continue;
+                    std::filesystem::path src(path);
+                    if (!std::filesystem::exists(src)) continue;
+                    const auto destDir = std::filesystem::current_path() / "assets";
+                    std::filesystem::create_directories(destDir);
+                    std::error_code ec;
+                    const auto dest = destDir / src.filename();
+                    std::filesystem::copy_file(src, dest, std::filesystem::copy_options::overwrite_existing, ec);
+                    if (!ec) assetEntries = RefreshAssets();
+                }
+            }
+        }
+
+        if (ImGui::BeginPopupModal("AssetsFolderCreated", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+            ImGui::Text("assets/ folder created or already existed.");
+            if (ImGui::Button("OK")) ImGui::CloseCurrentPopup();
+            ImGui::EndPopup();
+        }
+
         if (assetEntries.empty()) {
             ImGui::TextDisabled("No supported assets found in assets/.");
+            ImGui::TextWrapped("Tip: Drag and drop files from your file manager into the editor window to copy them into assets/ and see them here.");
         }
+
         for (int i = 0; i < static_cast<int>(assetEntries.size()); ++i) {
-            if (ImGui::Selectable(assetEntries[i].label.c_str(), selectedAssetIndex == i)) {
+            ImGui::PushID(2000 + i);
+            const auto& entry = assetEntries[i];
+            std::string icon = "[file]";
+            const std::string ext = entry.path.extension().string();
+            if (ext == ".obj" || ext == ".glb" || ext == ".gltf") icon = "[mesh]";
+            ImGui::TextUnformatted(icon.c_str()); ImGui::SameLine();
+            if (ImGui::Selectable(entry.label.c_str(), selectedAssetIndex == i)) {
                 selectedAssetIndex = i;
                 selectedAsset = assetEntries[i].path;
             }
+            ImGui::PopID();
         }
+
         if (!selectedAsset.empty()) {
             if (ImGui::Button("Import Selected")) {
                 pushHistory();

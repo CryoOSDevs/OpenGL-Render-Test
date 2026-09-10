@@ -13,6 +13,9 @@ uniform vec3 uPointLightColor[8];
 uniform vec3 uCameraPos;
 uniform float uSelected;
 
+uniform int uUseGrid;
+uniform float uGridScale;
+
 out vec4 FragColor;
 
 void main() {
@@ -43,6 +46,16 @@ void main() {
     }
 
     vec3 lit = uColor.rgb * (uAmbient + direct);
+
+    // optional grid overlay for ground
+    if (uUseGrid == 1) {
+        float gridScale = uGridScale;
+        vec2 coord = vWorldPos.xz * gridScale;
+        float line = (abs(fract(coord.x - 0.5) - 0.5) + abs(fract(coord.y - 0.5) - 0.5));
+        float grid = smoothstep(0.48, 0.5, line);
+        vec3 gridColor = mix(vec3(0.12), vec3(0.2), grid);
+        lit = mix(lit, gridColor, 0.45);
+    }
 
     if (uSelected > 0.5) {
         lit = mix(lit, vec3(0.75, 0.9, 1.0), 0.55);

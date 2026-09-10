@@ -19,6 +19,7 @@ public:
     void SetInt(const char* name, int value) const;
     void SetFloat(const char* name, float value) const;
     void SetVec3(const char* name, const glm::vec3& value) const;
+    void SetBool(const char* name, bool value) const;
     void SetVec4(const char* name, const glm::vec4& value) const;
     unsigned int GetId() const;
     void Destroy();

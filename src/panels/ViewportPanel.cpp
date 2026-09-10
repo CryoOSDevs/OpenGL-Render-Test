@@ -264,12 +264,15 @@ ground.name = "Ground";
 ground.SetPlaneMesh();
 ground.transform.position = glm::vec3(0.0f, -0.6f, 0.0f);
 ground.transform.scale = glm::vec3(14.0f, 1.0f, 14.0f);
-ground.color = glm::vec4(0.74f, 0.76f, 0.79f, 1.0f);
+ground.color = glm::vec4(0.28f, 0.30f, 0.33f, 1.0f);
 ground.EnsureUpload();
 shader_.SetMat4("uModel", ground.WorldMatrix());
 shader_.SetVec4("uColor", ground.color);
 shader_.SetFloat("uSelected", 0.0f);
+shader_.SetInt("uUseGrid", 1);
+shader_.SetFloat("uGridScale", 0.5f);
 ground.Draw();
+shader_.SetInt("uUseGrid", 0);
 
 for (int i = 0; i < static_cast<int>(objects.size()); ++i) {
     auto& object = objects[i];

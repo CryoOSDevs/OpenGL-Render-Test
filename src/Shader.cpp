@@ -102,6 +102,10 @@ void Shader::SetVec3(const char* name, const glm::vec3& value) const {
     glUniform3fv(glGetUniformLocation(id_, name), 1, &value[0]);
 }
 
+void Shader::SetBool(const char* name, bool value) const {
+    glUniform1i(glGetUniformLocation(id_, name), value ? 1 : 0);
+}
+
 void Shader::SetVec4(const char* name, const glm::vec4& value) const {
     glUniform4fv(glGetUniformLocation(id_, name), 1, &value[0]);
 }
