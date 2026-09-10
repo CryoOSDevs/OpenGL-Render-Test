@@ -21,7 +21,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "_deps/glfw-src/src/CMakeLists.txt"
   "_deps/glm-src/CMakeLists.txt"
   "_deps/glm-src/glm/CMakeLists.txt"
-  "_deps/imguizmo-src/CMakeLists.txt"
   "/usr/share/cmake-3.28/Modules/BasicConfigVersion-SameMajorVersion.cmake.in"
   "/usr/share/cmake-3.28/Modules/CMakeCInformation.cmake"
   "/usr/share/cmake-3.28/Modules/CMakeCXXInformation.cmake"
@@ -49,6 +48,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.28/Modules/FindFontconfig.cmake"
   "/usr/share/cmake-3.28/Modules/FindFreetype.cmake"
   "/usr/share/cmake-3.28/Modules/FindGit.cmake"
+  "/usr/share/cmake-3.28/Modules/FindOpenGL.cmake"
   "/usr/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake"
   "/usr/share/cmake-3.28/Modules/FindPackageMessage.cmake"
   "/usr/share/cmake-3.28/Modules/FindPkgConfig.cmake"
@@ -90,7 +90,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "_deps/glfw-build/docs/CMakeFiles/CMakeDirectoryInformation.cmake"
   "_deps/glm-build/CMakeFiles/CMakeDirectoryInformation.cmake"
   "_deps/glm-build/glm/CMakeFiles/CMakeDirectoryInformation.cmake"
-  "_deps/imguizmo-build/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
@@ -103,5 +102,4 @@ set(CMAKE_DEPEND_INFO_FILES
   "_deps/glfw-build/src/CMakeFiles/glfw.dir/DependInfo.cmake"
   "_deps/glfw-build/src/CMakeFiles/update_mappings.dir/DependInfo.cmake"
   "_deps/glm-build/glm/CMakeFiles/glm.dir/DependInfo.cmake"
-  "_deps/imguizmo-build/CMakeFiles/imguizmo.dir/DependInfo.cmake"
   )

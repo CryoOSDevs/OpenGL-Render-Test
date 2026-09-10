@@ -42,10 +42,3 @@
 /home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-build/glm/CMakeFiles/install.dir
 /home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-build/glm/CMakeFiles/install/local.dir
 /home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-build/glm/CMakeFiles/install/strip.dir
-/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-build/CMakeFiles/imguizmo.dir
-/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-build/CMakeFiles/edit_cache.dir
-/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-build/CMakeFiles/rebuild_cache.dir
-/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-build/CMakeFiles/list_install_components.dir
-/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-build/CMakeFiles/install.dir
-/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-build/CMakeFiles/install/local.dir
-/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-build/CMakeFiles/install/strip.dir

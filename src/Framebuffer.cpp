@@ -1,6 +1,6 @@
 #include "Framebuffer.h"
 
-#include <glad/gl.h>
+#include <glad/glad.h>
 #include <stdexcept>
 
 Framebuffer::Framebuffer() = default;

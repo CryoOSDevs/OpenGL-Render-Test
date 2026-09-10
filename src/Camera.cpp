@@ -1,9 +1,8 @@
 #include "Camera.h"
 
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/compatibility.hpp>
-
+#include <algorithm>
 #include <cmath>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace {
 constexpr float kMinPitch = -89.0f;
@@ -18,13 +17,13 @@ void OrbitCamera::SetTarget(glm::vec3 target, float distance, float yawDegrees, 
     target_ = target;
     distance_ = distance;
     yawDegrees_ = yawDegrees;
-    pitchDegrees_ = glm::clamp(pitchDegrees, kMinPitch, kMaxPitch);
+    pitchDegrees_ = std::clamp(pitchDegrees, kMinPitch, kMaxPitch);
 }
 
 void OrbitCamera::Orbit(float deltaX, float deltaY) {
     yawDegrees_ -= deltaX * 0.35f;
     pitchDegrees_ -= deltaY * 0.35f;
-    pitchDegrees_ = glm::clamp(pitchDegrees_, kMinPitch, kMaxPitch);
+    pitchDegrees_ = std::clamp(pitchDegrees_, kMinPitch, kMaxPitch);
 }
 
 void OrbitCamera::Pan(float deltaX, float deltaY) {
@@ -38,7 +37,7 @@ void OrbitCamera::Pan(float deltaX, float deltaY) {
 
 void OrbitCamera::Zoom(float delta) {
     distance_ *= std::pow(1.12f, -delta * 0.01f);
-    distance_ = glm::clamp(distance_, 1.5f, 30.0f);
+    distance_ = std::clamp(distance_, 1.5f, 30.0f);
 }
 
 glm::mat4 OrbitCamera::ViewMatrix() const {

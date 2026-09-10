@@ -266,19 +266,6 @@ glm/fast:
 	$(MAKE) $(MAKESILENT) -f _deps/glm-build/glm/CMakeFiles/glm.dir/build.make _deps/glm-build/glm/CMakeFiles/glm.dir/build
 .PHONY : glm/fast
 
-#=============================================================================
-# Target rules for targets named imguizmo
-
-# Build rule for target.
-imguizmo: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 imguizmo
-.PHONY : imguizmo
-
-# fast build rule for target.
-imguizmo/fast:
-	$(MAKE) $(MAKESILENT) -f _deps/imguizmo-build/CMakeFiles/imguizmo.dir/build.make _deps/imguizmo-build/CMakeFiles/imguizmo.dir/build
-.PHONY : imguizmo/fast
-
 _deps/imgui-src/backends/imgui_impl_glfw.o: _deps/imgui-src/backends/imgui_impl_glfw.cpp.o
 .PHONY : _deps/imgui-src/backends/imgui_impl_glfw.o
 
@@ -682,7 +669,6 @@ help:
 	@echo "... glfw"
 	@echo "... glm"
 	@echo "... imgui_lib"
-	@echo "... imguizmo"
 	@echo "... imguizmo_lib"
 	@echo "... _deps/imgui-src/backends/imgui_impl_glfw.o"
 	@echo "... _deps/imgui-src/backends/imgui_impl_glfw.i"

@@ -1,7 +1,6 @@
 #include "DetailsPanel.h"
 
 #include <glm/gtc/quaternion.hpp>
-#include <glm/gtx/quaternion.hpp>
 #include <imgui.h>
 
 namespace {

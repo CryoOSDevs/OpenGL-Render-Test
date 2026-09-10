@@ -198,6 +198,8 @@ LauraEditor: libimgui_lib.a
 LauraEditor: _deps/glfw-build/src/libglfw3.a
 LauraEditor: /usr/lib/x86_64-linux-gnu/librt.a
 LauraEditor: /usr/lib/x86_64-linux-gnu/libm.so
+LauraEditor: /usr/lib/x86_64-linux-gnu/libGLX.so
+LauraEditor: /usr/lib/x86_64-linux-gnu/libOpenGL.so
 LauraEditor: CMakeFiles/LauraEditor.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable LauraEditor"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/LauraEditor.dir/link.txt --verbose=$(VERBOSE)

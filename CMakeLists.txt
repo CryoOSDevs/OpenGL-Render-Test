@@ -34,9 +34,14 @@ FetchContent_Declare(
     GIT_TAG master
 )
 
-FetchContent_MakeAvailable(glfw glm imgui imguizmo)
+FetchContent_MakeAvailable(glfw glm)
+FetchContent_Populate(imgui)
+FetchContent_Populate(imguizmo)
+FetchContent_GetProperties(imgui)
+FetchContent_GetProperties(imguizmo)
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
+find_package(OpenGL REQUIRED)
 set(GLAD_GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}/_generated_glad")
 execute_process(
     COMMAND "${Python3_EXECUTABLE}" -m glad --generator c --spec gl --out-path "${GLAD_GENERATED_DIR}" --api gl=3.3 --profile core --quiet
@@ -74,7 +79,10 @@ target_link_libraries(imgui_lib PUBLIC glfw)
 add_library(imguizmo_lib STATIC
     ${imguizmo_SOURCE_DIR}/src/ImGuizmo.cpp
 )
-target_include_directories(imguizmo_lib PUBLIC ${imguizmo_SOURCE_DIR}/src)
+target_include_directories(imguizmo_lib PUBLIC
+    ${imguizmo_SOURCE_DIR}/src
+    ${imgui_SOURCE_DIR}
+)
 target_link_libraries(imguizmo_lib PUBLIC imgui_lib glm)
 
 # Application.
