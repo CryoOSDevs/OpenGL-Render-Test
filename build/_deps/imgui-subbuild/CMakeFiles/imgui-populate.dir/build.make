@@ -82,9 +82,6 @@ CMakeFiles/imgui-populate-complete: imgui-populate-prefix/src/imgui-populate-sta
 	/usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/CMakeFiles/imgui-populate-complete"
 	/usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-done"
 
-imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-update:
-.PHONY : imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-update
-
 imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-build: imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-configure
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "No build step for 'imgui-populate'"
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-build" && /usr/bin/cmake -E echo_append
@@ -96,10 +93,13 @@ imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-configure: imgui-p
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-build" && /usr/bin/cmake -E echo_append
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-build" && /usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-configure"
 
-imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-download: imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-gitinfo.txt
+imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-download: imgui-populate-prefix/src/imgui-populate-stamp/download-imgui-populate.cmake
+imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-download: imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-urlinfo.txt
 imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-download: imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-mkdir
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Performing download step (git clone) for 'imgui-populate'"
-	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/imgui-populate-prefix/tmp/imgui-populate-gitclone.cmake"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Performing download step (download, verify and extract) for 'imgui-populate'"
+	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/download-imgui-populate.cmake"
+	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/verify-imgui-populate.cmake"
+	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/extract-imgui-populate.cmake"
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-download"
 
 imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-install: imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-build
@@ -118,19 +118,16 @@ imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-patch: imgui-popul
 	/usr/bin/cmake -E echo_append
 	/usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-patch"
 
-imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-update:
-.PHONY : imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-update
-
 imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-test: imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-install
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "No test step for 'imgui-populate'"
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-build" && /usr/bin/cmake -E echo_append
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-build" && /usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-test"
 
-imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-update: imgui-populate-prefix/tmp/imgui-populate-gitupdate.cmake
 imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-update: imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-update-info.txt
 imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-update: imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-download
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Performing update step for 'imgui-populate'"
-	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-src" && /usr/bin/cmake -Dcan_fetch=YES -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/imgui-populate-prefix/tmp/imgui-populate-gitupdate.cmake"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "No update step for 'imgui-populate'"
+	/usr/bin/cmake -E echo_append
+	/usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-update"
 
 imgui-populate: CMakeFiles/imgui-populate
 imgui-populate: CMakeFiles/imgui-populate-complete

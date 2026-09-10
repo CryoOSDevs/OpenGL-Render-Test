@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I"/home/andrey-vorobey/Videos/OpenGL Render/src" -I"/home/andrey-vorobey/Videos/OpenGL Render/src/panels" -I"/home/andrey-vorobey/Videos/OpenGL Render/build/_generated_glad/include" -I"/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-src" -I"/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-src" -I"/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-src/src" -I"/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-src/include" -I"/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-src/backends"
+CXX_INCLUDES = -I"/home/andrey-vorobey/Videos/OpenGL Render/src" -I"/home/andrey-vorobey/Videos/OpenGL Render/src/panels" -I"/home/andrey-vorobey/Videos/OpenGL Render/build/_generated_glad/include" -I"/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-src" -I"/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-src" -I"/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-src/src" -I"/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/tinygltf-src" -I"/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-src/include" -I"/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imgui-src/backends"
 
 CXX_FLAGS = -std=gnu++17 -Wall -Wextra -pedantic
 

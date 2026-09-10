@@ -82,9 +82,6 @@ CMakeFiles/glfw-populate-complete: glfw-populate-prefix/src/glfw-populate-stamp/
 	/usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/CMakeFiles/glfw-populate-complete"
 	/usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-done"
 
-glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update:
-.PHONY : glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update
-
 glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-build: glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-configure
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "No build step for 'glfw-populate'"
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-build" && /usr/bin/cmake -E echo_append
@@ -96,10 +93,13 @@ glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-configure: glfw-popul
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-build" && /usr/bin/cmake -E echo_append
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-build" && /usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-configure"
 
-glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-download: glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-gitinfo.txt
+glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-download: glfw-populate-prefix/src/glfw-populate-stamp/download-glfw-populate.cmake
+glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-download: glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-urlinfo.txt
 glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-download: glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-mkdir
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Performing download step (git clone) for 'glfw-populate'"
-	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/glfw-populate-prefix/tmp/glfw-populate-gitclone.cmake"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Performing download step (download, verify and extract) for 'glfw-populate'"
+	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/download-glfw-populate.cmake"
+	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/verify-glfw-populate.cmake"
+	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/extract-glfw-populate.cmake"
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-download"
 
 glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-install: glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-build
@@ -118,19 +118,16 @@ glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-patch: glfw-populate-
 	/usr/bin/cmake -E echo_append
 	/usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-patch"
 
-glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update:
-.PHONY : glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update
-
 glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-test: glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-install
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "No test step for 'glfw-populate'"
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-build" && /usr/bin/cmake -E echo_append
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-build" && /usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-test"
 
-glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update: glfw-populate-prefix/tmp/glfw-populate-gitupdate.cmake
 glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update: glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update-info.txt
 glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update: glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-download
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Performing update step for 'glfw-populate'"
-	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-src" && /usr/bin/cmake -Dcan_fetch=YES -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/glfw-populate-prefix/tmp/glfw-populate-gitupdate.cmake"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "No update step for 'glfw-populate'"
+	/usr/bin/cmake -E echo_append
+	/usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update"
 
 glfw-populate: CMakeFiles/glfw-populate
 glfw-populate: CMakeFiles/glfw-populate-complete

@@ -304,6 +304,8 @@ CMakeFiles/LauraEditor.dir/src/panels/ViewportPanel.cpp.o: \
  /home/andrey-vorobey/Videos/OpenGL\ Render/src/panels/../Camera.h \
  /home/andrey-vorobey/Videos/OpenGL\ Render/src/panels/../Framebuffer.h \
  /home/andrey-vorobey/Videos/OpenGL\ Render/src/panels/../SceneObject.h \
+ /home/andrey-vorobey/Videos/OpenGL\ Render/build/_generated_glad/include/glad/glad.h \
+ /home/andrey-vorobey/Videos/OpenGL\ Render/build/_generated_glad/include/KHR/khrplatform.h \
  /usr/include/c++/13/string /usr/include/c++/13/bits/stringfwd.h \
  /usr/include/c++/13/bits/memoryfwd.h \
  /usr/include/c++/13/bits/char_traits.h \
@@ -353,9 +355,11 @@ CMakeFiles/LauraEditor.dir/src/panels/ViewportPanel.cpp.o: \
  /usr/include/c++/13/bits/memory_resource.h \
  /usr/include/c++/13/bits/uses_allocator.h \
  /usr/include/c++/13/bits/uses_allocator_args.h /usr/include/c++/13/tuple \
+ /usr/include/c++/13/vector /usr/include/c++/13/bits/stl_uninitialized.h \
+ /usr/include/c++/13/bits/stl_vector.h \
+ /usr/include/c++/13/bits/stl_bvector.h \
+ /usr/include/c++/13/bits/vector.tcc \
  /home/andrey-vorobey/Videos/OpenGL\ Render/src/panels/../Shader.h \
- /home/andrey-vorobey/Videos/OpenGL\ Render/build/_generated_glad/include/glad/glad.h \
- /home/andrey-vorobey/Videos/OpenGL\ Render/build/_generated_glad/include/KHR/khrplatform.h \
  /usr/include/c++/13/algorithm /usr/include/c++/13/bits/stl_algo.h \
  /usr/include/c++/13/bits/algorithmfwd.h \
  /usr/include/c++/13/bits/stl_heap.h \

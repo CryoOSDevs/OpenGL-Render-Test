@@ -53,13 +53,20 @@ CMakeFiles/LauraEditor.dir/src/panels/OutlinerPanel.cpp.o: \
  /usr/include/c++/13/bits/uses_allocator.h \
  /usr/include/c++/13/bits/uses_allocator_args.h /usr/include/c++/13/tuple \
  /home/andrey-vorobey/Videos/OpenGL\ Render/src/panels/../SceneObject.h \
- /home/andrey-vorobey/Videos/OpenGL\ Render/build/_deps/glm-src/glm/glm.hpp \
- /home/andrey-vorobey/Videos/OpenGL\ Render/build/_deps/glm-src/glm/detail/_fixes.hpp \
- /usr/include/c++/13/cmath /usr/include/math.h \
+ /home/andrey-vorobey/Videos/OpenGL\ Render/build/_generated_glad/include/glad/glad.h \
+ /home/andrey-vorobey/Videos/OpenGL\ Render/build/_generated_glad/include/KHR/khrplatform.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/x86_64-linux-gnu/bits/types.h \
  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
  /usr/include/x86_64-linux-gnu/bits/time64.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
+ /home/andrey-vorobey/Videos/OpenGL\ Render/build/_deps/glm-src/glm/glm.hpp \
+ /home/andrey-vorobey/Videos/OpenGL\ Render/build/_deps/glm-src/glm/detail/_fixes.hpp \
+ /usr/include/c++/13/cmath /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
@@ -80,8 +87,7 @@ CMakeFiles/LauraEditor.dir/src/panels/OutlinerPanel.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-intn.h /usr/include/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/types/timer_t.h /usr/include/endian.h \
  /usr/include/x86_64-linux-gnu/bits/endian.h \
  /usr/include/x86_64-linux-gnu/bits/endianness.h \
  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
@@ -115,12 +121,7 @@ CMakeFiles/LauraEditor.dir/src/panels/OutlinerPanel.cpp.o: \
  /home/andrey-vorobey/Videos/OpenGL\ Render/build/_deps/glm-src/glm/detail/setup.hpp \
  /usr/include/c++/13/cassert /usr/include/assert.h \
  /home/andrey-vorobey/Videos/OpenGL\ Render/build/_deps/glm-src/glm/detail/../simd/platform.h \
- /usr/include/c++/13/cstdint \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
- /usr/include/x86_64-linux-gnu/bits/wchar.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
- /usr/include/c++/13/climits \
+ /usr/include/c++/13/cstdint /usr/include/c++/13/climits \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h \
  /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \

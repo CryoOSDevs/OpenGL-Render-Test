@@ -16,18 +16,10 @@ unset(ENV{CMAKE_TOOLCHAIN_FILE})
 project(glfw-populate NONE)
 
 
-# Pass through things we've already detected in the main project to avoid
-# paying the cost of redetecting them again in ExternalProject_Add()
-set(GIT_EXECUTABLE [==[/usr/bin/git]==])
-set(GIT_VERSION_STRING [==[2.43.0]==])
-set_property(GLOBAL PROPERTY _CMAKE_FindGit_GIT_EXECUTABLE_VERSION
-  [==[/usr/bin/git;2.43.0]==]
-)
-
 
 include(ExternalProject)
 ExternalProject_Add(glfw-populate
-                     "UPDATE_DISCONNECTED" "False" "GIT_REPOSITORY" "https://github.com/glfw/glfw.git" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "GIT_TAG" "3.4"
+                     "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "TRUE" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "URL" "https://github.com/glfw/glfw/archive/refs/tags/3.4.tar.gz"
                     SOURCE_DIR          "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-src"
                     BINARY_DIR          "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glfw-build"
                     CONFIGURE_COMMAND   ""

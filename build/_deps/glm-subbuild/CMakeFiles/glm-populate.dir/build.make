@@ -82,9 +82,6 @@ CMakeFiles/glm-populate-complete: glm-populate-prefix/src/glm-populate-stamp/glm
 	/usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/CMakeFiles/glm-populate-complete"
 	/usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/glm-populate-done"
 
-glm-populate-prefix/src/glm-populate-stamp/glm-populate-update:
-.PHONY : glm-populate-prefix/src/glm-populate-stamp/glm-populate-update
-
 glm-populate-prefix/src/glm-populate-stamp/glm-populate-build: glm-populate-prefix/src/glm-populate-stamp/glm-populate-configure
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "No build step for 'glm-populate'"
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-build" && /usr/bin/cmake -E echo_append
@@ -96,10 +93,13 @@ glm-populate-prefix/src/glm-populate-stamp/glm-populate-configure: glm-populate-
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-build" && /usr/bin/cmake -E echo_append
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-build" && /usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/glm-populate-configure"
 
-glm-populate-prefix/src/glm-populate-stamp/glm-populate-download: glm-populate-prefix/src/glm-populate-stamp/glm-populate-gitinfo.txt
+glm-populate-prefix/src/glm-populate-stamp/glm-populate-download: glm-populate-prefix/src/glm-populate-stamp/download-glm-populate.cmake
+glm-populate-prefix/src/glm-populate-stamp/glm-populate-download: glm-populate-prefix/src/glm-populate-stamp/glm-populate-urlinfo.txt
 glm-populate-prefix/src/glm-populate-stamp/glm-populate-download: glm-populate-prefix/src/glm-populate-stamp/glm-populate-mkdir
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Performing download step (git clone) for 'glm-populate'"
-	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/glm-populate-prefix/tmp/glm-populate-gitclone.cmake"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Performing download step (download, verify and extract) for 'glm-populate'"
+	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/download-glm-populate.cmake"
+	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/verify-glm-populate.cmake"
+	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/extract-glm-populate.cmake"
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/glm-populate-download"
 
 glm-populate-prefix/src/glm-populate-stamp/glm-populate-install: glm-populate-prefix/src/glm-populate-stamp/glm-populate-build
@@ -118,19 +118,16 @@ glm-populate-prefix/src/glm-populate-stamp/glm-populate-patch: glm-populate-pref
 	/usr/bin/cmake -E echo_append
 	/usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/glm-populate-patch"
 
-glm-populate-prefix/src/glm-populate-stamp/glm-populate-update:
-.PHONY : glm-populate-prefix/src/glm-populate-stamp/glm-populate-update
-
 glm-populate-prefix/src/glm-populate-stamp/glm-populate-test: glm-populate-prefix/src/glm-populate-stamp/glm-populate-install
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "No test step for 'glm-populate'"
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-build" && /usr/bin/cmake -E echo_append
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-build" && /usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/glm-populate-test"
 
-glm-populate-prefix/src/glm-populate-stamp/glm-populate-update: glm-populate-prefix/tmp/glm-populate-gitupdate.cmake
 glm-populate-prefix/src/glm-populate-stamp/glm-populate-update: glm-populate-prefix/src/glm-populate-stamp/glm-populate-update-info.txt
 glm-populate-prefix/src/glm-populate-stamp/glm-populate-update: glm-populate-prefix/src/glm-populate-stamp/glm-populate-download
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Performing update step for 'glm-populate'"
-	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-src" && /usr/bin/cmake -Dcan_fetch=YES -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/glm-populate-prefix/tmp/glm-populate-gitupdate.cmake"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "No update step for 'glm-populate'"
+	/usr/bin/cmake -E echo_append
+	/usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/glm-populate-update"
 
 glm-populate: CMakeFiles/glm-populate
 glm-populate: CMakeFiles/glm-populate-complete

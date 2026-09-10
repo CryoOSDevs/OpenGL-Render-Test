@@ -246,6 +246,8 @@ CMakeFiles/LauraEditor.dir/src/panels/DetailsPanel.cpp.o: \
  /home/andrey-vorobey/Videos/OpenGL\ Render/build/_deps/glm-src/glm/integer.hpp \
  /home/andrey-vorobey/Videos/OpenGL\ Render/build/_deps/glm-src/glm/detail/func_integer.inl \
  /home/andrey-vorobey/Videos/OpenGL\ Render/src/panels/../SceneObject.h \
+ /home/andrey-vorobey/Videos/OpenGL\ Render/build/_generated_glad/include/glad/glad.h \
+ /home/andrey-vorobey/Videos/OpenGL\ Render/build/_generated_glad/include/KHR/khrplatform.h \
  /home/andrey-vorobey/Videos/OpenGL\ Render/build/_deps/glm-src/glm/gtc/quaternion.hpp \
  /home/andrey-vorobey/Videos/OpenGL\ Render/build/_deps/glm-src/glm/gtc/../gtc/constants.hpp \
  /home/andrey-vorobey/Videos/OpenGL\ Render/build/_deps/glm-src/glm/gtc/../gtc/../ext/scalar_constants.hpp \
@@ -334,6 +336,10 @@ CMakeFiles/LauraEditor.dir/src/panels/DetailsPanel.cpp.o: \
  /usr/include/c++/13/bits/memory_resource.h \
  /usr/include/c++/13/bits/uses_allocator.h \
  /usr/include/c++/13/bits/uses_allocator_args.h /usr/include/c++/13/tuple \
+ /usr/include/c++/13/vector /usr/include/c++/13/bits/stl_uninitialized.h \
+ /usr/include/c++/13/bits/stl_vector.h \
+ /usr/include/c++/13/bits/stl_bvector.h \
+ /usr/include/c++/13/bits/vector.tcc \
  /home/andrey-vorobey/Videos/OpenGL\ Render/build/_deps/imgui-src/imgui.h \
  /home/andrey-vorobey/Videos/OpenGL\ Render/build/_deps/imgui-src/imconfig.h \
  /usr/include/string.h /usr/include/strings.h

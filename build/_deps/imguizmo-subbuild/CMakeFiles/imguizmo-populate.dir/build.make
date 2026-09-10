@@ -82,9 +82,6 @@ CMakeFiles/imguizmo-populate-complete: imguizmo-populate-prefix/src/imguizmo-pop
 	/usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/CMakeFiles/imguizmo-populate-complete"
 	/usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-done"
 
-imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-update:
-.PHONY : imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-update
-
 imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-build: imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-configure
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "No build step for 'imguizmo-populate'"
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-build" && /usr/bin/cmake -E echo_append
@@ -96,10 +93,13 @@ imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-configure
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-build" && /usr/bin/cmake -E echo_append
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-build" && /usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-configure"
 
-imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-download: imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-gitinfo.txt
+imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-download: imguizmo-populate-prefix/src/imguizmo-populate-stamp/download-imguizmo-populate.cmake
+imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-download: imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-urlinfo.txt
 imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-download: imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-mkdir
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Performing download step (git clone) for 'imguizmo-populate'"
-	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/tmp/imguizmo-populate-gitclone.cmake"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Performing download step (download, verify and extract) for 'imguizmo-populate'"
+	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/download-imguizmo-populate.cmake"
+	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/verify-imguizmo-populate.cmake"
+	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/extract-imguizmo-populate.cmake"
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps" && /usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-download"
 
 imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-install: imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-build
@@ -118,19 +118,16 @@ imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-patch: im
 	/usr/bin/cmake -E echo_append
 	/usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-patch"
 
-imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-update:
-.PHONY : imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-update
-
 imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-test: imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-install
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "No test step for 'imguizmo-populate'"
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-build" && /usr/bin/cmake -E echo_append
 	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-build" && /usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-test"
 
-imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-update: imguizmo-populate-prefix/tmp/imguizmo-populate-gitupdate.cmake
 imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-update: imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-update-info.txt
 imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-update: imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-download
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Performing update step for 'imguizmo-populate'"
-	cd "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-src" && /usr/bin/cmake -Dcan_fetch=YES -P "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/tmp/imguizmo-populate-gitupdate.cmake"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "No update step for 'imguizmo-populate'"
+	/usr/bin/cmake -E echo_append
+	/usr/bin/cmake -E touch "/home/andrey-vorobey/Videos/OpenGL Render/build/_deps/imguizmo-subbuild/imguizmo-populate-prefix/src/imguizmo-populate-stamp/imguizmo-populate-update"
 
 imguizmo-populate: CMakeFiles/imguizmo-populate
 imguizmo-populate: CMakeFiles/imguizmo-populate-complete
