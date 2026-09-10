@@ -61,58 +61,59 @@ void ScrollCallback(GLFWwindow* /*window*/, double /*xoffset*/, double yoffset) 
 
 void ApplyEditorStyle() {
     ImGuiStyle& style = ImGui::GetStyle();
-    style.WindowPadding = ImVec2(12.0f, 10.0f);
-    style.FramePadding = ImVec2(8.0f, 6.0f);
-    style.ItemSpacing = ImVec2(8.0f, 8.0f);
+    style.WindowPadding = ImVec2(10.0f, 8.0f);
+    style.FramePadding = ImVec2(6.0f, 4.0f);
+    style.ItemSpacing = ImVec2(8.0f, 6.0f);
     style.ItemInnerSpacing = ImVec2(6.0f, 6.0f);
     style.ScrollbarSize = 12.0f;
     style.GrabMinSize = 10.0f;
-    style.WindowRounding = 10.0f;
-    style.FrameRounding = 7.0f;
-    style.ChildRounding = 10.0f;
-    style.PopupRounding = 8.0f;
-    style.ScrollbarRounding = 9.0f;
-    style.GrabRounding = 6.0f;
-    style.TabRounding = 8.0f;
+    style.WindowRounding = 6.0f;
+    style.FrameRounding = 4.0f;
+    style.ChildRounding = 6.0f;
+    style.PopupRounding = 6.0f;
+    style.ScrollbarRounding = 6.0f;
+    style.GrabRounding = 4.0f;
+    style.TabRounding = 4.0f;
 
-    ImVec4 bg = ImVec4(0.12f, 0.13f, 0.18f, 1.0f);
-    ImVec4 panel = ImVec4(0.17f, 0.18f, 0.23f, 1.0f);
-    ImVec4 panelAlt = ImVec4(0.22f, 0.23f, 0.28f, 1.0f);
-    ImVec4 accent = ImVec4(0.34f, 0.63f, 0.87f, 1.0f);
-    ImVec4 accentSoft = ImVec4(0.19f, 0.34f, 0.54f, 1.0f);
-    ImVec4 text = ImVec4(0.91f, 0.94f, 0.96f, 1.0f);
-    ImVec4 dim = ImVec4(0.68f, 0.72f, 0.8f, 1.0f);
+    // Slightly brighter, more neutral engine-themed palette (blue accents)
+    ImVec4 bg = ImVec4(0.10f, 0.11f, 0.13f, 1.0f);
+    ImVec4 panel = ImVec4(0.14f, 0.15f, 0.18f, 1.0f);
+    ImVec4 panelAlt = ImVec4(0.18f, 0.19f, 0.22f, 1.0f);
+    ImVec4 accent = ImVec4(0.10f, 0.55f, 0.9f, 1.0f);
+    ImVec4 accentSoft = ImVec4(0.06f, 0.35f, 0.6f, 1.0f);
+    ImVec4 text = ImVec4(0.92f, 0.94f, 0.96f, 1.0f);
+    ImVec4 dim = ImVec4(0.7f, 0.74f, 0.78f, 1.0f);
 
     style.Colors[ImGuiCol_WindowBg] = bg;
     style.Colors[ImGuiCol_ChildBg] = panel;
     style.Colors[ImGuiCol_PopupBg] = panelAlt;
     style.Colors[ImGuiCol_FrameBg] = panelAlt;
     style.Colors[ImGuiCol_FrameBgHovered] = accentSoft;
-    style.Colors[ImGuiCol_FrameBgActive] = accentSoft;
+    style.Colors[ImGuiCol_FrameBgActive] = accent;
     style.Colors[ImGuiCol_TitleBg] = bg;
     style.Colors[ImGuiCol_TitleBgActive] = bg;
     style.Colors[ImGuiCol_TitleBgCollapsed] = bg;
     style.Colors[ImGuiCol_MenuBarBg] = panel;
     style.Colors[ImGuiCol_ScrollbarBg] = panel;
-    style.Colors[ImGuiCol_ScrollbarGrab] = accentSoft;
-    style.Colors[ImGuiCol_ScrollbarGrabHovered] = accent;
+    style.Colors[ImGuiCol_ScrollbarGrab] = panelAlt;
+    style.Colors[ImGuiCol_ScrollbarGrabHovered] = accentSoft;
     style.Colors[ImGuiCol_ScrollbarGrabActive] = accent;
     style.Colors[ImGuiCol_CheckMark] = accent;
     style.Colors[ImGuiCol_SliderGrab] = accent;
     style.Colors[ImGuiCol_SliderGrabActive] = accent;
-    style.Colors[ImGuiCol_Button] = accentSoft;
-    style.Colors[ImGuiCol_ButtonHovered] = accent;
+    style.Colors[ImGuiCol_Button] = panelAlt;
+    style.Colors[ImGuiCol_ButtonHovered] = accentSoft;
     style.Colors[ImGuiCol_ButtonActive] = accent;
-    style.Colors[ImGuiCol_Header] = accentSoft;
-    style.Colors[ImGuiCol_HeaderHovered] = accent;
+    style.Colors[ImGuiCol_Header] = panelAlt;
+    style.Colors[ImGuiCol_HeaderHovered] = accentSoft;
     style.Colors[ImGuiCol_HeaderActive] = accent;
-    style.Colors[ImGuiCol_Separator] = accentSoft;
-    style.Colors[ImGuiCol_SeparatorHovered] = accent;
+    style.Colors[ImGuiCol_Separator] = panelAlt;
+    style.Colors[ImGuiCol_SeparatorHovered] = accentSoft;
     style.Colors[ImGuiCol_SeparatorActive] = accent;
     style.Colors[ImGuiCol_Text] = text;
     style.Colors[ImGuiCol_TextDisabled] = dim;
-    style.Colors[ImGuiCol_ResizeGrip] = accentSoft;
-    style.Colors[ImGuiCol_ResizeGripHovered] = accent;
+    style.Colors[ImGuiCol_ResizeGrip] = panelAlt;
+    style.Colors[ImGuiCol_ResizeGripHovered] = accentSoft;
     style.Colors[ImGuiCol_ResizeGripActive] = accent;
     style.Colors[ImGuiCol_DockingEmptyBg] = bg;
     style.Colors[ImGuiCol_Tab] = panelAlt;
@@ -120,6 +121,9 @@ void ApplyEditorStyle() {
     style.Colors[ImGuiCol_TabActive] = accent;
     style.Colors[ImGuiCol_TabUnfocused] = panelAlt;
     style.Colors[ImGuiCol_TabUnfocusedActive] = accentSoft;
+
+    // tweak fonts and sizes subtly (leave default font but adjust scale)
+    style.ScaleAllSizes(1.0f);
 }
 
 SceneObject MakeDefaultCube(const std::string& name, const glm::vec3& pos = glm::vec3(0.0f, 0.0f, 0.0f)) {
@@ -684,6 +688,13 @@ int main() {
             if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !io.WantCaptureKeyboard) gizmoOperation = ImGuizmo::TRANSLATE;
             if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && !io.WantCaptureKeyboard) gizmoOperation = ImGuizmo::ROTATE;
             if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS && !io.WantCaptureKeyboard) gizmoOperation = ImGuizmo::SCALE;
+
+            // Camera look pitch/yaw adjustments via arrow keys (when viewport hovered)
+            const float rotateSpeed = 45.0f * deltaSeconds; // degrees per second
+            if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) camera.Orbit(0.0f, -rotateSpeed);
+            if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) camera.Orbit(0.0f, rotateSpeed);
+            if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) camera.Orbit(rotateSpeed, 0.0f);
+            if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) camera.Orbit(-rotateSpeed, 0.0f);
 
             double mouseX = 0.0;
             double mouseY = 0.0;
