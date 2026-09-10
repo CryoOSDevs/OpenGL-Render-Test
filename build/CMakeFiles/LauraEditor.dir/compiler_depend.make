@@ -2386,10 +2386,6 @@ CMakeFiles/LauraEditor.dir/src/panels/ViewportPanel.cpp.o: /home/andrey-vorobey/
   _deps/glm-src/glm/gtc/vec1.hpp \
   _deps/glm-src/glm/gtc/type_ptr.hpp \
   _deps/glm-src/glm/gtc/type_ptr.inl \
-  _deps/glm-src/glm/gtx/compatibility.hpp \
-  _deps/glm-src/glm/gtx/compatibility.inl \
-  _deps/glm-src/glm/gtx/euler_angles.hpp \
-  _deps/glm-src/glm/gtx/euler_angles.inl \
   _deps/glm-src/glm/integer.hpp \
   _deps/glm-src/glm/mat2x2.hpp \
   _deps/glm-src/glm/packing.hpp \
@@ -2608,10 +2604,6 @@ CMakeFiles/LauraEditor.dir/src/panels/ViewportPanel.cpp.o: /home/andrey-vorobey/
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h
 
-
-_deps/glm-src/glm/gtx/euler_angles.inl:
-
-_deps/glm-src/glm/gtx/euler_angles.hpp:
 
 /home/andrey-vorobey/Videos/OpenGL\ Render/src/panels/DetailsPanel.cpp:
 
@@ -3255,8 +3247,6 @@ _deps/glm-src/glm/detail/setup.hpp:
 
 _deps/glm-src/glm/ext/matrix_double2x2_precision.hpp:
 
-_deps/glm-src/glm/gtx/compatibility.hpp:
-
 _deps/glm-src/glm/ext/matrix_double4x4_precision.hpp:
 
 _deps/glm-src/glm/ext/vector_bool1.hpp:
@@ -3306,8 +3296,6 @@ _deps/glm-src/glm/ext/matrix_projection.hpp:
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
 
 _deps/glm-src/glm/ext/matrix_projection.inl:
-
-_deps/glm-src/glm/gtx/compatibility.inl:
 
 /home/andrey-vorobey/Videos/OpenGL\ Render/src/panels/ViewportPanel.h:
 

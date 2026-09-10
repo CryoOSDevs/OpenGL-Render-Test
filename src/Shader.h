@@ -19,6 +19,7 @@ public:
     void SetVec3(const char* name, const glm::vec3& value) const;
     void SetVec4(const char* name, const glm::vec4& value) const;
     unsigned int GetId() const;
+    void Destroy();
 
     static Shader FromFile(const std::string& vertexPath, const std::string& fragmentPath);
 

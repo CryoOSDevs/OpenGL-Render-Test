@@ -61,10 +61,7 @@ Shader::Shader(const std::string& vertexSource, const std::string& fragmentSourc
 }
 
 Shader::~Shader() {
-    if (id_ != 0) {
-        glDeleteProgram(id_);
-        id_ = 0;
-    }
+    Destroy();
 }
 
 Shader::Shader(Shader&& other) noexcept : id_(other.id_) {
@@ -103,6 +100,13 @@ void Shader::SetVec4(const char* name, const glm::vec4& value) const {
 
 unsigned int Shader::GetId() const {
     return id_;
+}
+
+void Shader::Destroy() {
+    if (id_ != 0) {
+        glDeleteProgram(id_);
+        id_ = 0;
+    }
 }
 
 Shader Shader::FromFile(const std::string& vertexPath, const std::string& fragmentPath) {

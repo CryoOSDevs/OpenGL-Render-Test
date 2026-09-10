@@ -64,12 +64,7 @@ ViewportPanel::ViewportPanel() {
 }
 
 ViewportPanel::~ViewportPanel() {
-    if (vbo_ != 0) {
-        glDeleteBuffers(1, &vbo_);
-    }
-    if (vao_ != 0) {
-        glDeleteVertexArrays(1, &vao_);
-    }
+    Shutdown();
 }
 
 bool ViewportPanel::Render(SceneObject& object,
@@ -126,6 +121,21 @@ bool ViewportPanel::Render(SceneObject& object,
 
     ImGui::End();
     return changed;
+}
+
+void ViewportPanel::Shutdown() {
+    if (vbo_ != 0) {
+        glDeleteBuffers(1, &vbo_);
+        vbo_ = 0;
+    }
+    if (vao_ != 0) {
+        glDeleteVertexArrays(1, &vao_);
+        vao_ = 0;
+    }
+    shader_.Destroy();
+    framebuffer_.Destroy();
+    hovered_ = false;
+    focused_ = false;
 }
 
 bool ViewportPanel::IsHovered() const {

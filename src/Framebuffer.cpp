@@ -6,15 +6,7 @@
 Framebuffer::Framebuffer() = default;
 
 Framebuffer::~Framebuffer() {
-    if (colorTexture_ != 0) {
-        glDeleteTextures(1, &colorTexture_);
-    }
-    if (depthRenderbuffer_ != 0) {
-        glDeleteRenderbuffers(1, &depthRenderbuffer_);
-    }
-    if (framebuffer_ != 0) {
-        glDeleteFramebuffers(1, &framebuffer_);
-    }
+    Destroy();
 }
 
 Framebuffer::Framebuffer(Framebuffer&& other) noexcept
@@ -28,9 +20,7 @@ Framebuffer::Framebuffer(Framebuffer&& other) noexcept
 
 Framebuffer& Framebuffer::operator=(Framebuffer&& other) noexcept {
     if (this != &other) {
-        if (colorTexture_ != 0) glDeleteTextures(1, &colorTexture_);
-        if (depthRenderbuffer_ != 0) glDeleteRenderbuffers(1, &depthRenderbuffer_);
-        if (framebuffer_ != 0) glDeleteFramebuffers(1, &framebuffer_);
+        Destroy();
         framebuffer_ = other.framebuffer_;
         colorTexture_ = other.colorTexture_;
         depthRenderbuffer_ = other.depthRenderbuffer_;
@@ -103,4 +93,21 @@ unsigned int Framebuffer::TextureID() const {
 
 glm::ivec2 Framebuffer::Size() const {
     return glm::ivec2(width_, height_);
+}
+
+void Framebuffer::Destroy() {
+    if (colorTexture_ != 0) {
+        glDeleteTextures(1, &colorTexture_);
+        colorTexture_ = 0;
+    }
+    if (depthRenderbuffer_ != 0) {
+        glDeleteRenderbuffers(1, &depthRenderbuffer_);
+        depthRenderbuffer_ = 0;
+    }
+    if (framebuffer_ != 0) {
+        glDeleteFramebuffers(1, &framebuffer_);
+        framebuffer_ = 0;
+    }
+    width_ = 0;
+    height_ = 0;
 }

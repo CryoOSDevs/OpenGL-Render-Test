@@ -17,6 +17,7 @@ public:
     void Unbind() const;
     unsigned int TextureID() const;
     glm::ivec2 Size() const;
+    void Destroy();
 
 private:
     unsigned int framebuffer_ = 0;

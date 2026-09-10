@@ -23,6 +23,7 @@ public:
                 bool* isUsingGizmo = nullptr,
                 bool* isHoveredByGizmo = nullptr);
 
+    void Shutdown();
     bool IsHovered() const;
     bool IsFocused() const;
     unsigned int TextureID() const;
