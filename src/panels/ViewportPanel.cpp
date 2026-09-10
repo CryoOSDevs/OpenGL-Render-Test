@@ -1,6 +1,7 @@
 #include "ViewportPanel.h"
 
 #include <glad/gl.h>
+#include <algorithm>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/euler_angles.hpp>

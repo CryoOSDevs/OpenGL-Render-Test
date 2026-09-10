@@ -23,12 +23,6 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
-    glad
-    GIT_REPOSITORY https://github.com/Dav1dDe/glad.git
-    GIT_TAG v2.0.4
-)
-
-FetchContent_Declare(
     imgui
     GIT_REPOSITORY https://github.com/ocornut/imgui.git
     GIT_TAG docking
@@ -40,15 +34,22 @@ FetchContent_Declare(
     GIT_TAG master
 )
 
-FetchContent_MakeAvailable(glfw glm glad imgui imguizmo)
+FetchContent_MakeAvailable(glfw glm imgui imguizmo)
 
-# GLAD generates the OpenGL loader and exposes the CMake target.
-# GLFW adds its own imported target; the app links against the generated OpenGL libs.
-add_library(glad_lib INTERFACE)
-target_include_directories(glad_lib INTERFACE ${glad_SOURCE_DIR}/include)
-if (TARGET glad::glad)
-    target_link_libraries(glad_lib INTERFACE glad::glad)
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+set(GLAD_GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}/_generated_glad")
+execute_process(
+    COMMAND "${Python3_EXECUTABLE}" -m glad --generator c --spec gl --out-path "${GLAD_GENERATED_DIR}" --api gl=3.3 --profile core --quiet
+    RESULT_VARIABLE GLAD_GENERATE_RESULT
+    OUTPUT_QUIET
+    ERROR_QUIET
+)
+if(NOT GLAD_GENERATE_RESULT EQUAL 0)
+    message(FATAL_ERROR "Failed to generate glad loader via Python.")
 endif()
+
+add_library(glad_loader STATIC "${GLAD_GENERATED_DIR}/src/glad.c")
+target_include_directories(glad_loader PUBLIC "${GLAD_GENERATED_DIR}/include")
 
 # ImGui sources used by the app.
 set(IMGUI_SOURCES
@@ -57,8 +58,8 @@ set(IMGUI_SOURCES
     ${imgui_SOURCE_DIR}/imgui_tables.cpp
     ${imgui_SOURCE_DIR}/imgui_widgets.cpp
     ${imgui_SOURCE_DIR}/imgui_demo.cpp
-    ${imgui_SOURCE_DIR}/imgui_impl_glfw.cpp
-    ${imgui_SOURCE_DIR}/imgui_impl_opengl3.cpp
+    ${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp
+    ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
 )
 
 add_library(imgui_lib STATIC ${IMGUI_SOURCES})
@@ -71,9 +72,9 @@ target_link_libraries(imgui_lib PUBLIC glfw)
 
 # ImGuizmo sources.
 add_library(imguizmo_lib STATIC
-    ${imguizmo_SOURCE_DIR}/ImGuizmo.cpp
+    ${imguizmo_SOURCE_DIR}/src/ImGuizmo.cpp
 )
-target_include_directories(imguizmo_lib PUBLIC ${imguizmo_SOURCE_DIR})
+target_include_directories(imguizmo_lib PUBLIC ${imguizmo_SOURCE_DIR}/src)
 target_link_libraries(imguizmo_lib PUBLIC imgui_lib glm)
 
 # Application.
@@ -84,16 +85,16 @@ add_executable(LauraEditor ${APP_SOURCES})
 target_include_directories(LauraEditor PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/panels
-    ${glad_SOURCE_DIR}/include
+    ${GLAD_GENERATED_DIR}/include
     ${glm_SOURCE_DIR}
     ${imgui_SOURCE_DIR}
-    ${imguizmo_SOURCE_DIR}
+    ${imguizmo_SOURCE_DIR}/src
 )
 
 target_link_libraries(LauraEditor PRIVATE
     glfw
     glm
-    glad_lib
+    glad_loader
     imgui_lib
     imguizmo_lib
     OpenGL::GL
